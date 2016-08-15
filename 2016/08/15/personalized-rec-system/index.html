@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://www.ibm.com/developerworks/cn/web/1103_zhaoct_recommstudy1/image011.jpg">
 <meta property="og:image" content="http://www.ibm.com/developerworks/cn/web/1103_zhaoct_recommstudy1/image009.jpg">
 <meta property="og:image" content="http://images.cnitblog.com/blog/554053/201309/24100430-0fdd4a3fb87e4ceda74d549fd97e1c51.png">
-<meta property="og:updated_time" content="2016-08-15T05:42:29.000Z">
+<meta property="og:updated_time" content="2016-08-15T08:19:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="个性化推荐系统简介">
 <meta name="twitter:description" content="1. 推荐系统背景随着信息技术和互联网的发展，互联网的高速变化，人们逐渐从信息匮乏时代发展到信息过载的时代。 在信息海洋中，无论是信息的生产者还是信息的消费者，都遇到很大的挑战。一方是消费者要从海量信息中获取感兴趣的东西；另一方面信息生产者要从海量用户中找到潜在关注用户。  
@@ -323,11 +323,17 @@ NDCG：推荐结果列表预测总分数评估（Normalized Discounted Cumulativ
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"></td>
+<td style="text-align:left">被检索到</td>
+<td style="text-align:left">TP</td>
+<td style="text-align:left">FP</td>
+</tr>
+<tr>
+<td style="text-align:left">未被检索到</td>
+<td style="text-align:left">FN</td>
+<td style="text-align:left">TN</td>
 </tr>
 </tbody>
 </table>
-<p>被检索到 | TP | FP |<br>未被检索到 | FN | TN |</p>
 <p>准确率：</p>
 <pre><code>推荐结果中满足条件的结果占比
 P = TP / (TP + FP) （precision）
