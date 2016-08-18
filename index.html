@@ -258,6 +258,108 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/18/linkerd-routing/" itemprop="url">
+                  linkerd简介(3):routing
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-18T20:55:47+08:00" content="2016-08-18">
+              2016-08-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原文地址: <a href="https://linkerd.io/doc/0.7.3/routing/" target="_blank" rel="external">https://linkerd.io/doc/0.7.3/routing/</a></p>
+<p>linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。</p>
+<p>这个过程包括4步：</p>
+<pre><code>1. identification 
+2. delegation
+3. binding
+4. load balancing
+</code></pre><p>该流程还有部分转移到<code>namerd</code></p>
+<p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
+<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><h2 id="2-Delegation"><a href="#2-Delegation" class="headerlink" title="2. Delegation"></a>2. Delegation</h2><h2 id="3-Binding"><a href="#3-Binding" class="headerlink" title="3. Binding"></a>3. Binding</h2><h2 id="4-Load-Balancing"><a href="#4-Load-Balancing" class="headerlink" title="4. Load Balancing"></a>4. Load Balancing</h2><h2 id="5-Namerd"><a href="#5-Namerd" class="headerlink" title="5. Namerd"></a>5. Namerd</h2><h2 id="6-Routing-Policy"><a href="#6-Routing-Policy" class="headerlink" title="6. Routing Policy"></a>6. Routing Policy</h2>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/17/linkerd-overview/" itemprop="url">
                   linkerd简介(2):overview
                 </a>
@@ -688,103 +790,13 @@ Godaddy
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/14/hello-nemo/" itemprop="url">
-                  First Blog
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-14T14:47:22+08:00" content="2016-08-14">
-              2016-08-14
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">之前的hexo文件夹被删除，所有的内容都bye bye了。     </div><div class="line">so this is the first blog</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -823,7 +835,7 @@ Godaddy
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
