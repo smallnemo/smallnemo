@@ -301,8 +301,7 @@
 
       
         
-          
-            <p>原文地址: <a href="https://linkerd.io/doc/0.7.3/routing/" target="_blank" rel="external">https://linkerd.io/doc/0.7.3/routing/</a></p>
+          <p>原文地址: <a href="https://linkerd.io/doc/0.7.3/routing/">https://linkerd.io/doc/0.7.3/routing/</a></p>
 <p>linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。</p>
 <p>这个过程包括4步：</p>
 <pre><code>1. identification 
@@ -311,8 +310,12 @@
 4. load balancing
 </code></pre><p>该流程还有部分转移到<code>namerd</code></p>
 <p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
-<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><h2 id="2-Delegation"><a href="#2-Delegation" class="headerlink" title="2. Delegation"></a>2. Delegation</h2><h2 id="3-Binding"><a href="#3-Binding" class="headerlink" title="3. Binding"></a>3. Binding</h2><h2 id="4-Load-Balancing"><a href="#4-Load-Balancing" class="headerlink" title="4. Load Balancing"></a>4. Load Balancing</h2><h2 id="5-Namerd"><a href="#5-Namerd" class="headerlink" title="5. Namerd"></a>5. Namerd</h2><h2 id="6-Routing-Policy"><a href="#6-Routing-Policy" class="headerlink" title="6. Routing Policy"></a>6. Routing Policy</h2>
-          
+<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><p>identification就是给请求分配一个名称(<code>name,path</code>)。 名称就是一个相当于请求目的地址的<code>画斜线的字符串</code>，linkerd默认使用<code>io.l5d.methodAndHost</code>，基于Http 方法和Host Header，如<code>/http/1.1/&lt;METHOD&gt;/&lt;HOST&gt;</code> 分配名称给请求。<br>如:<code>GET http://example/hello</code> 将被分配一个名称 <code>/http/1.1/GET/example</code><br><code>/hello</code> 则在名称中被丢弃。但它任然会作为请求的一部分代理转发给服务端。name只是用来决定请求如何被路由转发，而不控制发送的内容。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/18/linkerd-routing/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

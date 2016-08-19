@@ -105,7 +105,7 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
 4. load balancing
 该流程还有部分转移到na">
 <meta property="og:image" content="https://linkerd.io/images/routing.png">
-<meta property="og:updated_time" content="2016-08-18T13:06:21.000Z">
+<meta property="og:updated_time" content="2016-08-19T05:14:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linkerd简介(3):routing">
 <meta name="twitter:description" content="原文地址: https://linkerd.io/doc/0.7.3/routing/
@@ -328,7 +328,11 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
 4. load balancing
 </code></pre><p>该流程还有部分转移到<code>namerd</code></p>
 <p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
-<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><h2 id="2-Delegation"><a href="#2-Delegation" class="headerlink" title="2. Delegation"></a>2. Delegation</h2><h2 id="3-Binding"><a href="#3-Binding" class="headerlink" title="3. Binding"></a>3. Binding</h2><h2 id="4-Load-Balancing"><a href="#4-Load-Balancing" class="headerlink" title="4. Load Balancing"></a>4. Load Balancing</h2><h2 id="5-Namerd"><a href="#5-Namerd" class="headerlink" title="5. Namerd"></a>5. Namerd</h2><h2 id="6-Routing-Policy"><a href="#6-Routing-Policy" class="headerlink" title="6. Routing Policy"></a>6. Routing Policy</h2>
+<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><p>identification就是给请求分配一个名称(<code>name,path</code>)。 名称就是一个相当于请求目的地址的<code>画斜线的字符串</code>，linkerd默认使用<code>io.l5d.methodAndHost</code>，基于Http 方法和Host Header，如<code>/http/1.1/&lt;METHOD&gt;/&lt;HOST&gt;</code> 分配名称给请求。<br>如:<code>GET http://example/hello</code> 将被分配一个名称 <code>/http/1.1/GET/example</code><br><code>/hello</code> 则在名称中被丢弃。但它任然会作为请求的一部分代理转发给服务端。name只是用来决定请求如何被路由转发，而不控制发送的内容。</p>
+<a id="more"></a>
+<p><strong><code>identifer</code></strong>是一个插件模块，可以很容易的使用满足业务的自定义模块来代替。<br>更多关于identifer的配置，请看<a href="https://linkerd.io/doc/0.7.3/linkerd/protocol-http#protocol-http-identifiers" target="_blank" rel="external">linkerd identifer docs</a>      </p>
+<p>identifer分配给请求的名称就是<strong><code>logic name</code></strong>。</p>
+<h2 id="2-Delegation"><a href="#2-Delegation" class="headerlink" title="2. Delegation"></a>2. Delegation</h2><h2 id="3-Binding"><a href="#3-Binding" class="headerlink" title="3. Binding"></a>3. Binding</h2><h2 id="4-Load-Balancing"><a href="#4-Load-Balancing" class="headerlink" title="4. Load Balancing"></a>4. Load Balancing</h2><h2 id="5-Namerd"><a href="#5-Namerd" class="headerlink" title="5. Namerd"></a>5. Namerd</h2><h2 id="6-Routing-Policy"><a href="#6-Routing-Policy" class="headerlink" title="6. Routing Policy"></a>6. Routing Policy</h2>
       
     </div>
 
