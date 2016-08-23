@@ -310,7 +310,6 @@
 4. load balancing
 </code></pre><p>该流程还有部分转移到<code>namerd</code></p>
 <p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
-<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><p>identification就是给请求分配一个名称(<code>name,path</code>)。 名称就是一个相当于请求目的地址的<code>画斜线的字符串</code>，linkerd默认使用<code>io.l5d.methodAndHost</code>，基于Http 方法和Host Header，如<code>/http/1.1/&lt;METHOD&gt;/&lt;HOST&gt;</code> 分配名称给请求。<br>如:<code>GET http://example/hello</code> 将被分配一个名称 <code>/http/1.1/GET/example</code><br><code>/hello</code> 则在名称中被丢弃。但它任然会作为请求的一部分代理转发给服务端。name只是用来决定请求如何被路由转发，而不控制发送的内容。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/08/18/linkerd-routing/#more" rel="contents">
               阅读全文 &raquo;

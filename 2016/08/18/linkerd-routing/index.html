@@ -105,7 +105,7 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
 4. load balancing
 该流程还有部分转移到na">
 <meta property="og:image" content="https://linkerd.io/images/routing.png">
-<meta property="og:updated_time" content="2016-08-19T05:14:00.000Z">
+<meta property="og:updated_time" content="2016-08-23T07:12:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linkerd简介(3):routing">
 <meta name="twitter:description" content="原文地址: https://linkerd.io/doc/0.7.3/routing/
@@ -328,11 +328,26 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
 4. load balancing
 </code></pre><p>该流程还有部分转移到<code>namerd</code></p>
 <p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
-<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><p>identification就是给请求分配一个名称(<code>name,path</code>)。 名称就是一个相当于请求目的地址的<code>画斜线的字符串</code>，linkerd默认使用<code>io.l5d.methodAndHost</code>，基于Http 方法和Host Header，如<code>/http/1.1/&lt;METHOD&gt;/&lt;HOST&gt;</code> 分配名称给请求。<br>如:<code>GET http://example/hello</code> 将被分配一个名称 <code>/http/1.1/GET/example</code><br><code>/hello</code> 则在名称中被丢弃。但它任然会作为请求的一部分代理转发给服务端。name只是用来决定请求如何被路由转发，而不控制发送的内容。</p>
 <a id="more"></a>
+<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><p>identification就是给请求分配一个名称(<code>name,path</code>)。 名称就是一个相当于请求目的地址的<code>画斜线的字符串</code>，linkerd默认使用<code>io.l5d.methodAndHost</code>，基于Http 方法和Host Header，如<code>/http/1.1/&lt;METHOD&gt;/&lt;HOST&gt;</code> 分配名称给请求。<br>如:<code>GET http://example/hello</code> 将被分配一个名称 <code>/http/1.1/GET/example</code><br><code>/hello</code> 则在名称中被丢弃。但它任然会作为请求的一部分代理转发给服务端。name只是用来决定请求如何被路由转发，而不控制发送的内容。</p>
+<!-- more -->
 <p><strong><code>identifer</code></strong>是一个插件模块，可以很容易的使用满足业务的自定义模块来代替。<br>更多关于identifer的配置，请看<a href="https://linkerd.io/doc/0.7.3/linkerd/protocol-http#protocol-http-identifiers" target="_blank" rel="external">linkerd identifer docs</a>      </p>
-<p>identifer分配给请求的名称就是<strong><code>logic name</code></strong>。</p>
-<h2 id="2-Delegation"><a href="#2-Delegation" class="headerlink" title="2. Delegation"></a>2. Delegation</h2><h2 id="3-Binding"><a href="#3-Binding" class="headerlink" title="3. Binding"></a>3. Binding</h2><h2 id="4-Load-Balancing"><a href="#4-Load-Balancing" class="headerlink" title="4. Load Balancing"></a>4. Load Balancing</h2><h2 id="5-Namerd"><a href="#5-Namerd" class="headerlink" title="5. Namerd"></a>5. Namerd</h2><h2 id="6-Routing-Policy"><a href="#6-Routing-Policy" class="headerlink" title="6. Routing Policy"></a>6. Routing Policy</h2>
+<p>identifer分配给请求的名称就是<strong><code>logic name</code></strong>, 它只会编码目的地地址，不会编码集群、区域环境、节点等信息。</p>
+<p>如：应用想要请求’users’服务，会生成一个以<code>users</code>为Host Header的HTTP GET请求到linkerd。<code>io.l5d.methodAndHost</code>identifier将是<code>/http/1.1/GET/users</code></p>
+<h2 id="2-Delegation"><a href="#2-Delegation" class="headerlink" title="2. Delegation"></a>2. Delegation</h2><p>一旦一个<strong>logic name</strong>被分配给了一个请求，该name就接受dtab(<code>delegation table</code>)的信息。dtab工作原理见<a href="https://linkerd.io/doc/dtabs" target="_blank" rel="external">dtab guide</a>. dtab编码<strong>logic name</strong>到<strong>concrete name</strong>转换的规则。一个<strong>concrete name</strong>就是一些列地址(服务发现入口)的集合。和<strong>logic names</strong>不同的是，<strong>concrete name</strong>包括集群、分区、环境等详细信息。</p>
+<p><strong>concrete name</strong>经常以<code>/$</code>,<code>/#</code>开头。</p>
+<p>假设dtab信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/srv =&gt; /#/io.l5d.serversets/discovery</div><div class="line">/host =&gt; /srv/prod</div><div class="line">/http/1.1/* =&gt; /host</div></pre></td></tr></table></figure>
+<p><strong>logic name</strong> <code>/http/1.1/GET/users</code> 将得到以下结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/http/1.1/GET/users</div><div class="line">/host/users</div><div class="line">/srv/prod/users</div><div class="line">/#/io.l5d.serversets/discovery/prod/users</div></pre></td></tr></table></figure>
+<p>最后<code>/#/io.l5d.serversets/discovery/prod/users</code>就是<strong>concrete name</strong>    </p>
+<h2 id="3-Binding"><a href="#3-Binding" class="headerlink" title="3. Binding"></a>3. Binding</h2><p><strong>binding</strong>就是讲<strong>concrete name</strong>映射到物理地址(ip+port)的行为。binding将由<strong>namer</strong>来完成。更多了解namer，见<a href="https://linkerd.io/doc/0.7.3/linkerd/namer" target="_blank" rel="external">linkerd namer docs</a>。</p>
+<h2 id="4-Load-Balancing"><a href="#4-Load-Balancing" class="headerlink" title="4. Load Balancing"></a>4. Load Balancing</h2><p>linkerd有了服务的一组地址之后，使用<a href="https://blog.buoyant.io/2016/03/16/beyond-round-robin-load-balancing-for-latency/" target="_blank" rel="external">负载均衡算法</a>来决定请求发往的目的地。linkerd在请求层而不是连接层做负载均衡。负载均衡算法可以使用请求延迟信息来降权慢节点，避免更多负载过重的节点。</p>
+<h2 id="5-Namerd"><a href="#5-Namerd" class="headerlink" title="5. Namerd"></a>5. Namerd</h2><p><strong>name interpretation</strong>： 映射一个<strong>logic name</strong>到一堆地址。<br>好处：       </p>
+<pre><code>* Decreased load on service discovery backends
+* Global routing policy
+* Dynamic routing policy
+</code></pre>
       
     </div>
 
@@ -519,7 +534,7 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Identification"><span class="nav-text">1. Identification</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Delegation"><span class="nav-text">2. Delegation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Binding"><span class="nav-text">3. Binding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Load-Balancing"><span class="nav-text">4. Load Balancing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Namerd"><span class="nav-text">5. Namerd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Routing-Policy"><span class="nav-text">6. Routing Policy</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Identification"><span class="nav-text">1. Identification</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Delegation"><span class="nav-text">2. Delegation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Binding"><span class="nav-text">3. Binding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Load-Balancing"><span class="nav-text">4. Load Balancing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Namerd"><span class="nav-text">5. Namerd</span></a></li></ol></div>
             
           </div>
         </section>
