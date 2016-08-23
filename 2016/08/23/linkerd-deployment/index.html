@@ -106,7 +106,7 @@ be a sidecar process
 在per-host部署模式中，每个host(物理还是虚拟)部署一个link">
 <meta property="og:image" content="https://linkerd.io/images/diagram-per-host-deployment.png">
 <meta property="og:image" content="https://linkerd.io/images/diagram-sidecar-deployment.png">
-<meta property="og:updated_time" content="2016-08-23T09:35:05.000Z">
+<meta property="og:updated_time" content="2016-08-23T09:59:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linkerd简介(5):部署">
 <meta name="twitter:description" content="原文地址:https://linkerd.io/doc/0.7.3/deployment/
@@ -330,6 +330,7 @@ be a sidecar process
 <p>在per-host部署模式中，每个host(物理还是虚拟)部署一个linkerd实例，在改主机的所有应用服务实例都使用同一个linkerd实例进行RPC路由。</p>
 <p>这种模式主要适用于host-based部署。主机上的每一个服务应用实例能在固定位置(如：<code>localhost:4140</code>)找到对应的linkerd实例，而不需要客户端额外的配置。</p>
 <p>这种模式要求linkerd实例支持高并发，需要较多的资源支持。这种模式，一个独立的linkerd实例相应地失去了主机本身。</p>
+<a id="more"></a>
 <h2 id="2-SIDECAR部署"><a href="#2-SIDECAR部署" class="headerlink" title="2. SIDECAR部署"></a>2. SIDECAR部署</h2><p><img src="https://linkerd.io/images/diagram-sidecar-deployment.png" alt=""></p>
 <p>在sidecar部署模式中，每一个业务服务对应的部署一个linkerd实例。这种模式主要适用于主要实例、基于容器的服务实例等与host-based完全相反的实例。如在一个Kubernetes部署中，一个linkerd容器可以被当做Kubernetes “pod”的一部分来部署。服务实例可以访问linkerd实例，就像是在同一个host。</p>
 <p>sidecar部署需要很多的linkerd实例，每个需要较少的资源。这种模式，独立的linkerd实例相应地失去了与服务本身的映射。</p>
