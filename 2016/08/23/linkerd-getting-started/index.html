@@ -84,39 +84,37 @@
 
 
 
-<meta name="description" content="原文地址: https://linkerd.io/doc/0.7.3/routing/
-linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。
-这个过程包括4步：
-1. identification 
-2. delegation
-3. binding
-4. load balancing
-该流程还有部分转移到na">
+<meta name="description" content="原文地址：https://linkerd.io/doc/getting-started/    
+简单使用linkerd的基本步骤。
+1. 需要组件运行linkerd，需要java8
+
+$ java -versionjava version “1.8.0_66”
+
+linkerd支持Oracle和OpenJDK的JAVA。
+Download Oracal Java8Download OpenJDK">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linkerd简介(3):routing">
-<meta property="og:url" content="http://yoursite.com/2016/08/18/linkerd-routing/index.html">
+<meta property="og:title" content="linkerd调研(4):快速开始">
+<meta property="og:url" content="http://yoursite.com/2016/08/23/linkerd-getting-started/index.html">
 <meta property="og:site_name" content="Talisman">
-<meta property="og:description" content="原文地址: https://linkerd.io/doc/0.7.3/routing/
-linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。
-这个过程包括4步：
-1. identification 
-2. delegation
-3. binding
-4. load balancing
-该流程还有部分转移到na">
-<meta property="og:image" content="https://linkerd.io/images/routing.png">
-<meta property="og:updated_time" content="2016-08-23T07:12:03.000Z">
+<meta property="og:description" content="原文地址：https://linkerd.io/doc/getting-started/    
+简单使用linkerd的基本步骤。
+1. 需要组件运行linkerd，需要java8
+
+$ java -versionjava version “1.8.0_66”
+
+linkerd支持Oracle和OpenJDK的JAVA。
+Download Oracal Java8Download OpenJDK">
+<meta property="og:updated_time" content="2016-08-23T08:13:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linkerd简介(3):routing">
-<meta name="twitter:description" content="原文地址: https://linkerd.io/doc/0.7.3/routing/
-linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。
-这个过程包括4步：
-1. identification 
-2. delegation
-3. binding
-4. load balancing
-该流程还有部分转移到na">
-<meta name="twitter:image" content="https://linkerd.io/images/routing.png">
+<meta name="twitter:title" content="linkerd调研(4):快速开始">
+<meta name="twitter:description" content="原文地址：https://linkerd.io/doc/getting-started/    
+简单使用linkerd的基本步骤。
+1. 需要组件运行linkerd，需要java8
+
+$ java -versionjava version “1.8.0_66”
+
+linkerd支持Oracle和OpenJDK的JAVA。
+Download Oracal Java8Download OpenJDK">
 
 
 
@@ -137,9 +135,9 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/18/linkerd-routing/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/23/linkerd-getting-started/"/>
 
-  <title> linkerd简介(3):routing | Talisman </title>
+  <title> linkerd调研(4):快速开始 | Talisman </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -279,7 +277,7 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
             
             
               
-                linkerd简介(3):routing
+                linkerd调研(4):快速开始
               
             
           </h1>
@@ -291,8 +289,8 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-18T20:55:47+08:00" content="2016-08-18">
-              2016-08-18
+            <time itemprop="dateCreated" datetime="2016-08-23T15:30:23+08:00" content="2016-08-23">
+              2016-08-23
             </time>
           </span>
 
@@ -319,35 +317,62 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
       
 
       
-        <p>原文地址: <a href="https://linkerd.io/doc/0.7.3/routing/" target="_blank" rel="external">https://linkerd.io/doc/0.7.3/routing/</a></p>
-<p>linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。</p>
-<p>这个过程包括4步：</p>
-<pre><code>1. identification 
-2. delegation
-3. binding
-4. load balancing
-</code></pre><p>该流程还有部分转移到<code>namerd</code></p>
-<p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
+        <p>原文地址：<a href="https://linkerd.io/doc/getting-started/" target="_blank" rel="external">https://linkerd.io/doc/getting-started/</a>    </p>
+<p>简单使用linkerd的基本步骤。</p>
+<h2 id="1-需要组件"><a href="#1-需要组件" class="headerlink" title="1. 需要组件"></a>1. 需要组件</h2><p>运行linkerd，需要java8</p>
+<blockquote>
+<p>$ java -version<br>java version “1.8.0_66”</p>
+</blockquote>
+<p>linkerd支持Oracle和OpenJDK的JAVA。</p>
+<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">Download Oracal Java8</a><br><a href="http://openjdk.java.net/install/" target="_blank" rel="external">Download OpenJDK8</a></p>
+<h2 id="2-下载和安装"><a href="#2-下载和安装" class="headerlink" title="2. 下载和安装"></a>2. 下载和安装</h2><p>下载linkerd: <a href="https://github.com/BuoyantIO/linkerd/releases" target="_blank" rel="external">https://github.com/BuoyantIO/linkerd/releases</a></p>
+<p>下载之后：</p>
+<blockquote>
+<p>$ tar -zxf linkerd-0.7.3.tgz<br>$ cd linkerd-0.7.3</p>
+</blockquote>
 <a id="more"></a>
-<h2 id="1-Identification"><a href="#1-Identification" class="headerlink" title="1. Identification"></a>1. Identification</h2><p>identification就是给请求分配一个名称(<code>name,path</code>)。 名称就是一个相当于请求目的地址的<code>画斜线的字符串</code>，linkerd默认使用<code>io.l5d.methodAndHost</code>，基于Http 方法和Host Header，如<code>/http/1.1/&lt;METHOD&gt;/&lt;HOST&gt;</code> 分配名称给请求。<br>如:<code>GET http://example/hello</code> 将被分配一个名称 <code>/http/1.1/GET/example</code><br><code>/hello</code> 则在名称中被丢弃。但它任然会作为请求的一部分代理转发给服务端。name只是用来决定请求如何被路由转发，而不控制发送的内容。</p>
-<!-- more -->
-<p><strong><code>identifer</code></strong>是一个插件模块，可以很容易的使用满足业务的自定义模块来代替。<br>更多关于identifer的配置，请看<a href="https://linkerd.io/doc/0.7.3/linkerd/protocol-http#protocol-http-identifiers" target="_blank" rel="external">linkerd identifer docs</a>      </p>
-<p>identifer分配给请求的名称就是<strong><code>logic name</code></strong>, 它只会编码目的地地址，不会编码集群、区域环境、节点等信息。</p>
-<p>如：应用想要请求’users’服务，会生成一个以<code>users</code>为Host Header的HTTP GET请求到linkerd。<code>io.l5d.methodAndHost</code>identifier将是<code>/http/1.1/GET/users</code></p>
-<h2 id="2-Delegation"><a href="#2-Delegation" class="headerlink" title="2. Delegation"></a>2. Delegation</h2><p>一旦一个<strong>logic name</strong>被分配给了一个请求，该name就接受dtab(<code>delegation table</code>)的信息。dtab工作原理见<a href="https://linkerd.io/doc/dtabs" target="_blank" rel="external">dtab guide</a>. dtab编码<strong>logic name</strong>到<strong>concrete name</strong>转换的规则。一个<strong>concrete name</strong>就是一些列地址(服务发现入口)的集合。和<strong>logic names</strong>不同的是，<strong>concrete name</strong>包括集群、分区、环境等详细信息。</p>
-<p><strong>concrete name</strong>经常以<code>/$</code>,<code>/#</code>开头。</p>
-<p>假设dtab信息如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/srv =&gt; /#/io.l5d.serversets/discovery</div><div class="line">/host =&gt; /srv/prod</div><div class="line">/http/1.1/* =&gt; /host</div></pre></td></tr></table></figure>
-<p><strong>logic name</strong> <code>/http/1.1/GET/users</code> 将得到以下结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/http/1.1/GET/users</div><div class="line">/host/users</div><div class="line">/srv/prod/users</div><div class="line">/#/io.l5d.serversets/discovery/prod/users</div></pre></td></tr></table></figure>
-<p>最后<code>/#/io.l5d.serversets/discovery/prod/users</code>就是<strong>concrete name</strong>    </p>
-<h2 id="3-Binding"><a href="#3-Binding" class="headerlink" title="3. Binding"></a>3. Binding</h2><p><strong>binding</strong>就是讲<strong>concrete name</strong>映射到物理地址(ip+port)的行为。binding将由<strong>namer</strong>来完成。更多了解namer，见<a href="https://linkerd.io/doc/0.7.3/linkerd/namer" target="_blank" rel="external">linkerd namer docs</a>。</p>
-<h2 id="4-Load-Balancing"><a href="#4-Load-Balancing" class="headerlink" title="4. Load Balancing"></a>4. Load Balancing</h2><p>linkerd有了服务的一组地址之后，使用<a href="https://blog.buoyant.io/2016/03/16/beyond-round-robin-load-balancing-for-latency/" target="_blank" rel="external">负载均衡算法</a>来决定请求发往的目的地。linkerd在请求层而不是连接层做负载均衡。负载均衡算法可以使用请求延迟信息来降权慢节点，避免更多负载过重的节点。</p>
-<h2 id="5-Namerd"><a href="#5-Namerd" class="headerlink" title="5. Namerd"></a>5. Namerd</h2><p><strong>name interpretation</strong>： 映射一个<strong>logic name</strong>到一堆地址。<br>好处：       </p>
-<pre><code>* Decreased load on service discovery backends
-* Global routing policy
-* Dynamic routing policy
-</code></pre>
+<p>文件夹包含以下文件:</p>
+<ol>
+<li><code>config/linkerd.yaml</code> 定义路由、服务、协议和端口等的配置文件</li>
+<li><code>disco/</code> 基于文件的服务发现配置</li>
+<li><code>docs/</code> 文档</li>
+<li><code>linkerd-0.7.3-exec</code> 可执行文件</li>
+<li><code>logs</code>      默认日志文件夹</li>
+</ol>
+<h2 id="3-运行linkerd"><a href="#3-运行linkerd" class="headerlink" title="3. 运行linkerd"></a>3. 运行linkerd</h2><p>解压之后，就可以运行linkerd了.</p>
+<blockquote>
+<p>$ ./linkerd-0.7.3-exec config.linkerd.yaml</p>
+</blockquote>
+<h2 id="4-测试验证"><a href="#4-测试验证" class="headerlink" title="4. 测试验证"></a>4. 测试验证</h2><p>使用发送HTTP请求验证linkerd是否work。linkerd被配置为监听<code>4140</code>端口, 路由任何设置Host header为“web”的HTTP请求到一个监听<code>9999</code>端口的服务。</p>
+<p>运行一个监听9999端口的服务来测试：</p>
+<blockquote>
+<p>$ echo ‘hello world’ &gt; index.html<br>$ python -m SimpleHTTPServer 9999<br>这样在本地启动了一个9999端口的http服务。</p>
+</blockquote>
+<p>当我们使用http请求4140端口的时候:</p>
+<blockquote>
+<p>$ curl -H “Host: web” <a href="http://localhost:4140/" target="_blank" rel="external">http://localhost:4140/</a><br>hello world</p>
+</blockquote>
+<p>当我们使用Host不是web的4140端口来测试:</p>
+<blockquote>
+<p>$ curl -H “Host: foobar” <a href="http://localhost:4140/" target="_blank" rel="external">http://localhost:4140/</a><br>HTTP/1.1 502 Bad Gateway</p>
+</blockquote>
+<h2 id="5-发现服务"><a href="#5-发现服务" class="headerlink" title="5. 发现服务"></a>5. 发现服务</h2><p>启动linkerd后，当需要查找一个服务节点的时候，第一个查看的是<code>disco</code>文件夹。</p>
+<p>默认的配置是：</p>
+<pre><code>$ head disco/*
+   ==&gt; disco/thrift-buffered &lt;==
+   127.0.0.1 9997
+
+   ==&gt; disco/thrift-framed &lt;==
+   127.0.0.1 9998
+
+  ==&gt; disco/web &lt;==
+  127.0.0.1 9999
+</code></pre><p>从上可以看到一个“web”的目的地址使用了:<code>127.0.0.1 9999</code>。 thrift framed使用了<code>127.0.0.1 9998</code>, thrift buffer使用了<code>127.0.0.1 9997</code></p>
+<p>该文件配置了所有的服务发现节点，所有linkerd能通过坚持改文件夹的变化，可以在不重启的情况下增加、删除、编辑任何一个节点的配置。</p>
+<p>更多的关于路由的配置，见<a href="https://linkerd.io/doc/0.7.3/overview/#routing" target="_blank" rel="external">linkerd’s routing capabilities</a></p>
+<h2 id="5-管理"><a href="#5-管理" class="headerlink" title="5. 管理"></a>5. 管理</h2><p>linkerd在9990端口运行了一个web管理界面。启动linkerd之后可以通过 <a href="http://localhost:9990" target="_blank" rel="external">http://localhost:9990</a> 来访问。<br>使用管理界面可以用来查看linkerd的操作状态，修改一些运行中的参数。</p>
+<h2 id="6-衡量指标（Metrics）"><a href="#6-衡量指标（Metrics）" class="headerlink" title="6. 衡量指标（Metrics）"></a>6. 衡量指标（Metrics）</h2><p>Linkerd发布机器可读的指标数据。通过一个额外的指标集合工具，这些指标数据可以被用来计数。 运行linkerd之后，可以通过<a href="http://localhost:9990/admin/metrics.json" target="_blank" rel="external">http://localhost:9990/admin/metrics.json</a> 来查看。</p>
+
       
     </div>
 
@@ -401,17 +426,13 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/17/linkerd-overview/" rel="next" title="linkerd简介(2):overview">
-                <i class="fa fa-chevron-left"></i> linkerd简介(2):overview
+              <a href="/2016/08/18/linkerd-routing/" rel="next" title="linkerd简介(3):routing">
+                <i class="fa fa-chevron-left"></i> linkerd简介(3):routing
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/23/linkerd-getting-started/" rel="prev" title="linkerd调研(4):快速开始">
-                linkerd调研(4):快速开始 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -538,7 +559,7 @@ linkerd的主要工作是路由:接收一个request，将request转发至正确�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Identification"><span class="nav-text">1. Identification</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Delegation"><span class="nav-text">2. Delegation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Binding"><span class="nav-text">3. Binding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Load-Balancing"><span class="nav-text">4. Load Balancing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Namerd"><span class="nav-text">5. Namerd</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-需要组件"><span class="nav-text">1. 需要组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-下载和安装"><span class="nav-text">2. 下载和安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-运行linkerd"><span class="nav-text">3. 运行linkerd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-测试验证"><span class="nav-text">4. 测试验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-发现服务"><span class="nav-text">5. 发现服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-管理"><span class="nav-text">5. 管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-衡量指标（Metrics）"><span class="nav-text">6. 衡量指标（Metrics）</span></a></li></ol></div>
             
           </div>
         </section>
