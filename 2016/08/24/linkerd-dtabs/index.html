@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.useso.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linkerd,RPC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原文地址: https://linkerd.io/doc/dtabs/
+Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: 一家货运公司)并且将他们转换为定位它们的concrete name(如:成都市天府软件园E3)。这个过程我们称之为resolution,它主要涉及一些列前缀的改写。
+除了这些文件，你可以参考Twitter的Finagle’s dtab docs, 也可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linkerd简介(7):dtabs">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/linkerd-dtabs/index.html">
+<meta property="og:site_name" content="Talisman">
+<meta property="og:description" content="原文地址: https://linkerd.io/doc/dtabs/
+Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: 一家货运公司)并且将他们转换为定位它们的concrete name(如:成都市天府软件园E3)。这个过程我们称之为resolution,它主要涉及一些列前缀的改写。
+除了这些文件，你可以参考Twitter的Finagle’s dtab docs, 也可">
+<meta property="og:updated_time" content="2016-08-24T07:51:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linkerd简介(7):dtabs">
+<meta name="twitter:description" content="原文地址: https://linkerd.io/doc/dtabs/
+Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: 一家货运公司)并且将他们转换为定位它们的concrete name(如:成都市天府软件园E3)。这个过程我们称之为resolution,它主要涉及一些列前缀的改写。
+除了这些文件，你可以参考Twitter的Finagle’s dtab docs, 也可">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/24/linkerd-dtabs/"/>
+
+  <title> linkerd简介(7):dtabs | Talisman </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Talisman</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                linkerd简介(7):dtabs
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T14:16:11+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/24/linkerd-dtabs/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-dtabs/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文地址: <a href="https://linkerd.io/doc/dtabs/" target="_blank" rel="external">https://linkerd.io/doc/dtabs/</a></p>
+<p><strong><code>Dtabs</code></strong>就是一系列路由规则的集合，这些规则存储<code>logic path</code>(如: 一家货运公司)并且将他们转换为定位它们的<code>concrete name</code>(如:成都市天府软件园E3)。这个过程我们称之为<code>resolution</code>,它主要涉及一些列前缀的改写。</p>
+<p>除了这些文件，你可以参考Twitter的<a href="http://twitter.github.io/finagle/guide/Names.html" target="_blank" rel="external">Finagle’s dtab docs</a>, 也可以通过运行linkerd实例后，浏览<a href="http://localhost:9990/delegator" target="_blank" rel="external">http://localhost:9990/delegator</a> 来体验dtab。</p>
+<h2 id="1-PATHS"><a href="#1-PATHS" class="headerlink" title="1. PATHS"></a>1. PATHS</h2><p>最简单的dtab就是单条规则。(称为dentry)</p>
+<pre><code>/56qqCorp =&gt; /softwarepark;
+</code></pre><p>这条规则只对<code>56qq Corp</code>有效，对其他前缀的路径无效。</p>
+<p>但是对于路径 <code>/56qqCorp/tech</code>, 前缀满足规则的左边部分。将会被替换为<code>/softwarepark/tech</code>。</p>
+<h2 id="2-DENTRIES-amp-ORDER-次序"><a href="#2-DENTRIES-amp-ORDER-次序" class="headerlink" title="2. DENTRIES &amp; ORDER(次序)"></a>2. DENTRIES &amp; ORDER(次序)</h2><p><strong>Dtabs</strong>大部分时候有一些列dentry。 比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/smitten       =&gt; /USA/CA/SF/Octavia/432;</div><div class="line">/iceCreamStore =&gt; /smitten;</div><div class="line">/iceCreamStore =&gt; /humphrys;</div></pre></td></tr></table></figure>
+<p>当我们尝试解决匹配对个前缀的路径时，<font color="red"><strong>靠后的匹配优先</strong></font>。 所以路径<code>/iceCreamStore/try/allFlavors</code>首先会转换为<code>/humphrys/try/allFlavors</code>。然后，如果humphrys的地址无法感知，我们就会失败回退使用<code>/smitten/try/allFlavors</code>，进一步路径修改，最终变为<code>/USA/CA/SF/Octavia/432/try/allFlavors</code>。</p>
+<h3 id="2-1-STEP-BY-STEP-EXAMPLE"><a href="#2-1-STEP-BY-STEP-EXAMPLE" class="headerlink" title="2.1 STEP-BY-STEP EXAMPLE"></a>2.1 STEP-BY-STEP EXAMPLE</h3><p>比如dtab:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/iceCreamStore    =&gt; /smitten;</div><div class="line">/smitten/try      =&gt; /smittenLocation/waitInLine/thenTry;</div><div class="line">/smittenLocation  =&gt; /sanfrancisco/octavia/432;</div><div class="line">/california       =&gt; /USA/CA;</div><div class="line">/sanfrancisco     =&gt; /california/SF;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>当给定路径为<code>/iceCreamStore/try/allFlavors</code></p>
+<p>解决步骤如下:</p>
+<ol>
+<li>首先匹配 <code>/iceCreamStore    =&gt; /smitten;</code>, 变为<code>/smitten/try/allFlavors</code>；</li>
+<li>匹配<code>smitten/try =&gt; /smittenLocation/waitInLine/thenTry;</code>，变为<code>/smittenLocation/waitInLine/thenTry/allFlavors</code>；</li>
+<li>匹配<code>/smittenLocation =&gt; /sanfrancisco/octavia/432;</code>，变为<code>/sanfrancisco/octavia/432/waitInLine/thenTry/allFlavors</code>；</li>
+<li>匹配<code>/sanfrancisco =&gt; /california/SF;</code>，变为<code>/california/SF/octavia/432/waitInLine/thenTry/allFlavors</code>；</li>
+<li>最后匹配<code>/california =&gt; /USA/CA</code>，变为<code>/USA/CA/SF/octavia/432/waitInLine/thenTry/allFlavors</code>。</li>
+</ol>
+<p>从上面看到，每次都有一个前缀匹配，我们是匹配替换后的路径再次从底到顶搜索整个dtab。但是有时候我们会意外的制造路径替换循环，比如如下的dtab。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/iceCream        =&gt; /youScream;</div><div class="line">/youScream       =&gt; /weAllScream/for;</div><div class="line">/weAllScream/for =&gt; /iceCream;</div></pre></td></tr></table></figure>
+<p>不用担心，Finagle在多次循环的查找后会自动退出。</p>
+<h2 id="3-NAMERS-amp-ADDRESS"><a href="#3-NAMERS-amp-ADDRESS" class="headerlink" title="3. NAMERS &amp; ADDRESS"></a>3. NAMERS &amp; ADDRESS</h2><p>到现在讨论的都还是路径的路由，为了使Finagle能成功路由一条请求，路径最终需要转换为一个<code>concrete name</code>。大部分的<code>concrete name</code>(在Finagle中叫做<code>bound addresses</code>)都是使用<code>namers</code>来定义和查找的。</p>
+<p>Finagle提供了一个namer叫做<code>“/$/inet”</code>，它将定义随后的两个部分为ip和端口。所以”/$/inet/127.0.0.1/4140” 就被认为绑定地址<code>127.0.0.1:4140</code></p>
+<p>Linkerd也针对不同的服务发现机制提供了一系列namers。</p>
+<p>一旦一个路径被namer转换为绑定地址(bound address)之后，路由就结束了，在前缀匹配中余下的部分任然不会被使用。</p>
+<p>比如：一个namer定义了<code>/routeOnMethod</code>，它基于下一段为GET或者POST来转发请求，dtab就是<code>/http/1.1 =&gt; /routeOnMethod</code>，路径<code>/http/1.1/GET/host/users</code>将会被转换为<code>/routeOnMethod/GET/host/users</code>，前缀<code>/routeOnMethod/GET</code>将会被识别为一个绑定地址，剩下的<code>/host</code>和<code>/users</code>就对路由不起任何作用。</p>
+<p>Namer不只是用来解决路径问题。 Namer的一个很基础功能是支持函数，如<code>/multiply</code>将会将后续的两个字段相乘返回一个数字。</p>
+<p>比如dtab:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/byNine  =&gt; /multiply/9;</div><div class="line">/byEight =&gt; /multiply/8;</div><div class="line">/bySeven =&gt; /multiply/7;</div></pre></td></tr></table></figure>
+<p>路径<code>/byNine/3</code> 将返回<code>/27</code>。</p>
+<h2 id="4-ALTERNATES-amp-UNIONS-amp-WEIGHTS-候补、联合、权重"><a href="#4-ALTERNATES-amp-UNIONS-amp-WEIGHTS-候补、联合、权重" class="headerlink" title="4. ALTERNATES &amp; UNIONS &amp; WEIGHTS(候补、联合、权重)"></a>4. ALTERNATES &amp; UNIONS &amp; WEIGHTS(候补、联合、权重)</h2><p>当两个规则使用同样的前缀时，我们称之为可候补的。<br>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/smitten       =&gt; /USA/CA/SF/Octavia/432;</div><div class="line">/iceCreamStore =&gt; /smitten;</div><div class="line">/iceCreamStore =&gt; /humphrys;</div></pre></td></tr></table></figure>
+<p>可候补规则也可以使用管道符号”|”来改写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/smitten       =&gt; /USA/CA/SF/Octavia/432;</div><div class="line">/iceCreamStore =&gt; /humphrys | /smitten;</div></pre></td></tr></table></figure>
+<p>在两种情况下，<code>humphrys</code>就会优先被选择。如果一直失败回退到最后一个地址也是无法感知的，则该路径操作即使失败的。我们可以在可候补配置中增加任意个数的可选值。如<code>/humphrys | /smitten | /birite | /three-twins</code>…</p>
+<p>Dtabs也支持联合，如下:<code>/iceCreamStore =&gt; /humphrys &amp; /smitten</code>。在这个例子中任何一个地址都拥有相同的权重。如果我们更想到其中一个节点，可以增加它的权重(weights)。如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/smitten       =&gt; 3 * /SF/Octavia/432 &amp; 1 * /SF/California/2404;</div><div class="line">/iceCreamStore =&gt; 0.7 * /humphrys &amp; 0.3 * /smitten;</div></pre></td></tr></table></figure>
+<p>权重值可以是浮点数，也可以是整数。</p>
+<h2 id="5-NEGATIVE，FAILURE-amp-EMPTY-RESOLUTIONS"><a href="#5-NEGATIVE，FAILURE-amp-EMPTY-RESOLUTIONS" class="headerlink" title="5. NEGATIVE，FAILURE &amp; EMPTY RESOLUTIONS"></a>5. NEGATIVE，FAILURE &amp; EMPTY RESOLUTIONS</h2><p>如果一个namer找不到一个<code>concrete name</code>,将会返回一个否定的方案。在给Finagle的信息中表明这个路径是不可用的，这时候可以使用一个可候补的路径去尝试。如果所有的路径最后都是错的，Finagle将抛出一个错误。这种错误重试逻辑可以使用<code>~</code>来测试。Finagle认为<code>~</code>是一个不可用的路径。<br>如:<code>/iceCreamStore =&gt; ~ | /smitten;</code></p>
+<p>如果我们想在检查所有候补路径之前停止，我们需要使用失败而不是否定。失败的描述是<figure class="highlight plain"><figcaption><span>如:   </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">/iceCreamStore =&gt; /smitten | !;</div></pre></td></tr></table></figure></p>
+<p>Namers有时候会返回失败。如<code>/multiply</code>在路径<code>/multiply/cats/dogs</code>将可能返回失败。</p>
+<p>一个在测试中用到的空方案是:<code>/$/nil</code> 或者<code>$</code></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.jpg" alt="Nemo WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="Nemo Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linkerd/" rel="tag">#linkerd</a>
+          
+            <a href="/tags/RPC/" rel="tag">#RPC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/24/linkerd-kubernetes/" rel="next" title="linkerd简介(6):kubernetes">
+                <i class="fa fa-chevron-left"></i> linkerd简介(6):kubernetes
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/08/24/linkerd-dtabs/"
+     data-title="linkerd简介(7):dtabs"
+     data-content=""
+     data-url="http://yoursite.com/2016/08/24/linkerd-dtabs/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/24/linkerd-dtabs/"
+           data-title="linkerd简介(7):dtabs" data-url="http://yoursite.com/2016/08/24/linkerd-dtabs/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Nemo" />
+          <p class="site-author-name" itemprop="name">Nemo</p>
+          <p class="site-description motion-element" itemprop="description">for hope i d give my everything</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/smallnemo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/stefanie520" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-PATHS"><span class="nav-text">1. PATHS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DENTRIES-amp-ORDER-次序"><span class="nav-text">2. DENTRIES & ORDER(次序)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-STEP-BY-STEP-EXAMPLE"><span class="nav-text">2.1 STEP-BY-STEP EXAMPLE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-NAMERS-amp-ADDRESS"><span class="nav-text">3. NAMERS & ADDRESS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-ALTERNATES-amp-UNIONS-amp-WEIGHTS-候补、联合、权重"><span class="nav-text">4. ALTERNATES & UNIONS & WEIGHTS(候补、联合、权重)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-NEGATIVE，FAILURE-amp-EMPTY-RESOLUTIONS"><span class="nav-text">5. NEGATIVE，FAILURE & EMPTY RESOLUTIONS</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nemo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"talisman"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
