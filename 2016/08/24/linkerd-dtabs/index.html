@@ -94,7 +94,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 <meta property="og:description" content="原文地址: https://linkerd.io/doc/dtabs/
 Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: 一家货运公司)并且将他们转换为定位它们的concrete name(如:成都市天府软件园E3)。这个过程我们称之为resolution,它主要涉及一些列前缀的改写。
 除了这些文件，你可以参考Twitter的Finagle’s dtab docs, 也可">
-<meta property="og:updated_time" content="2016-08-24T07:55:13.000Z">
+<meta property="og:updated_time" content="2016-08-24T07:56:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linkerd简介(7):dtabs">
 <meta name="twitter:description" content="原文地址: https://linkerd.io/doc/dtabs/
@@ -352,8 +352,8 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/smitten       =&gt; 3 * /SF/Octavia/432 &amp; 1 * /SF/California/2404;</div><div class="line">/iceCreamStore =&gt; 0.7 * /humphrys &amp; 0.3 * /smitten;</div></pre></td></tr></table></figure>
 <p>权重值可以是浮点数，也可以是整数。</p>
 <h2 id="5-NEGATIVE，FAILURE-amp-EMPTY-RESOLUTIONS"><a href="#5-NEGATIVE，FAILURE-amp-EMPTY-RESOLUTIONS" class="headerlink" title="5. NEGATIVE，FAILURE &amp; EMPTY RESOLUTIONS"></a>5. NEGATIVE，FAILURE &amp; EMPTY RESOLUTIONS</h2><p>如果一个namer找不到一个<code>concrete name</code>,将会返回一个否定的方案。在给Finagle的信息中表明这个路径是不可用的，这时候可以使用一个可候补的路径去尝试。如果所有的路径最后都是错的，Finagle将抛出一个错误。这种错误重试逻辑可以使用<code>~</code>来测试。Finagle认为<code>~</code>是一个不可用的路径。<br>如:<code>/iceCreamStore =&gt; ~ | /smitten;</code></p>
-<p>如果我们想在检查所有候补路径之前停止，我们需要使用失败而不是否定。失败的描述是<figure class="highlight plain"><figcaption><span>如:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"> </div></pre></td></tr></table></figure></p>
-<p>/iceCreamStore =&gt; /smitten | !;<br>```</p>
+<p>如果我们想在检查所有候补路径之前停止，我们需要使用失败而不是否定。失败的描述是<code>/$/fail</code>或者更短的<code>!</code>。 如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/iceCreamStore =&gt; /smitten | !;</div></pre></td></tr></table></figure>
 <p>Namers有时候会返回失败。如<code>/multiply</code>在路径<code>/multiply/cats/dogs</code>将可能返回失败。</p>
 <p>一个在测试中用到的空方案是:<code>/$/nil</code> 或者<code>$</code></p>
 
