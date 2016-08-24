@@ -84,40 +84,22 @@
 
 
 
-<meta name="description" content="原文地址:https://linkerd.io/doc/0.7.3/deployment/
-除了JVM,linkerd没有其它依赖。它很明确的设计来适应已存在应用的部署，可以和多种RPC协同工作。linkerd主要有两种部署方式：
-
-per-host
-be a sidecar process 
-
-1. PER-HOST部署
-在per-host部署模式中，每个host(物理还是虚拟)部署一个link">
+<meta name="description" content="原文链接: https://linkerd.io/doc/network-performance/
+linkerd是一个网络代理，因此linkerd的性能问题主要就是隐藏在后面网络性能问题。为了帮助定位这些问题，下面是一些常见的网络性能问题查看方法。
+1. LOOK AT BACKEND LATENCIESlinkerd会把流量路由到响应快的后端节点，但是如果pool太小或者所有的后端节点都是同样">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linkerd简介(5):部署">
-<meta property="og:url" content="http://yoursite.com/2016/08/23/linkerd-deployment/index.html">
+<meta property="og:title" content="linkerd简介(8):network performance">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/linkerd-network-performance/index.html">
 <meta property="og:site_name" content="Talisman">
-<meta property="og:description" content="原文地址:https://linkerd.io/doc/0.7.3/deployment/
-除了JVM,linkerd没有其它依赖。它很明确的设计来适应已存在应用的部署，可以和多种RPC协同工作。linkerd主要有两种部署方式：
-
-per-host
-be a sidecar process 
-
-1. PER-HOST部署
-在per-host部署模式中，每个host(物理还是虚拟)部署一个link">
-<meta property="og:image" content="https://linkerd.io/images/diagram-per-host-deployment.png">
-<meta property="og:image" content="https://linkerd.io/images/diagram-sidecar-deployment.png">
-<meta property="og:updated_time" content="2016-08-23T09:59:11.000Z">
+<meta property="og:description" content="原文链接: https://linkerd.io/doc/network-performance/
+linkerd是一个网络代理，因此linkerd的性能问题主要就是隐藏在后面网络性能问题。为了帮助定位这些问题，下面是一些常见的网络性能问题查看方法。
+1. LOOK AT BACKEND LATENCIESlinkerd会把流量路由到响应快的后端节点，但是如果pool太小或者所有的后端节点都是同样">
+<meta property="og:updated_time" content="2016-08-24T08:45:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linkerd简介(5):部署">
-<meta name="twitter:description" content="原文地址:https://linkerd.io/doc/0.7.3/deployment/
-除了JVM,linkerd没有其它依赖。它很明确的设计来适应已存在应用的部署，可以和多种RPC协同工作。linkerd主要有两种部署方式：
-
-per-host
-be a sidecar process 
-
-1. PER-HOST部署
-在per-host部署模式中，每个host(物理还是虚拟)部署一个link">
-<meta name="twitter:image" content="https://linkerd.io/images/diagram-per-host-deployment.png">
+<meta name="twitter:title" content="linkerd简介(8):network performance">
+<meta name="twitter:description" content="原文链接: https://linkerd.io/doc/network-performance/
+linkerd是一个网络代理，因此linkerd的性能问题主要就是隐藏在后面网络性能问题。为了帮助定位这些问题，下面是一些常见的网络性能问题查看方法。
+1. LOOK AT BACKEND LATENCIESlinkerd会把流量路由到响应快的后端节点，但是如果pool太小或者所有的后端节点都是同样">
 
 
 
@@ -138,9 +120,9 @@ be a sidecar process
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/23/linkerd-deployment/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/24/linkerd-network-performance/"/>
 
-  <title> linkerd简介(5):部署 | Talisman </title>
+  <title> linkerd简介(8):network performance | Talisman </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -280,7 +262,7 @@ be a sidecar process
             
             
               
-                linkerd简介(5):部署
+                linkerd简介(8):network performance
               
             
           </h1>
@@ -292,8 +274,8 @@ be a sidecar process
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-23T16:42:44+08:00" content="2016-08-23">
-              2016-08-23
+            <time itemprop="dateCreated" datetime="2016-08-24T15:58:10+08:00" content="2016-08-24">
+              2016-08-24
             </time>
           </span>
 
@@ -303,8 +285,8 @@ be a sidecar process
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/23/linkerd-deployment/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/linkerd-deployment/" itemprop="commentsCount"></span>
+                <a href="/2016/08/24/linkerd-network-performance/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-network-performance/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -327,32 +309,22 @@ be a sidecar process
       
 
       
-        <p>原文地址:<a href="https://linkerd.io/doc/0.7.3/deployment/" target="_blank" rel="external">https://linkerd.io/doc/0.7.3/deployment/</a></p>
-<p>除了JVM,linkerd没有其它依赖。它很明确的设计来适应已存在应用的部署，可以和多种RPC协同工作。linkerd主要有两种部署方式：</p>
-<ol>
-<li><strong>per-host</strong></li>
-<li><strong>be a sidecar process</strong> </li>
-</ol>
-<h2 id="1-PER-HOST部署"><a href="#1-PER-HOST部署" class="headerlink" title="1. PER-HOST部署"></a>1. PER-HOST部署</h2><p><img src="https://linkerd.io/images/diagram-per-host-deployment.png" alt=""></p>
-<p>在per-host部署模式中，每个host(物理还是虚拟)部署一个linkerd实例，在改主机的所有应用服务实例都使用同一个linkerd实例进行RPC路由。</p>
-<p>这种模式主要适用于host-based部署。主机上的每一个服务应用实例能在固定位置(如：<code>localhost:4140</code>)找到对应的linkerd实例，而不需要客户端额外的配置。</p>
-<p>这种模式要求linkerd实例支持高并发，需要较多的资源支持。这种模式，一个独立的linkerd实例相应地失去了主机本身。</p>
+        <p>原文链接: <a href="https://linkerd.io/doc/network-performance/" target="_blank" rel="external">https://linkerd.io/doc/network-performance/</a></p>
+<p>linkerd是一个网络代理，因此linkerd的性能问题主要就是隐藏在后面网络性能问题。为了帮助定位这些问题，下面是一些常见的网络性能问题查看方法。</p>
+<h2 id="1-LOOK-AT-BACKEND-LATENCIES"><a href="#1-LOOK-AT-BACKEND-LATENCIES" class="headerlink" title="1. LOOK AT BACKEND LATENCIES"></a>1. LOOK AT BACKEND LATENCIES</h2><p>linkerd会把流量路由到响应快的后端节点，但是如果pool太小或者所有的后端节点都是同样的延迟。ps:经常在测试环境中pool大小为1或者2，linkerd就无法使用负载均衡来优化性能。</p>
+<p>查看<code>metrics.json</code> <code>loadbalancer</code>状态来查看pool的大小以及负载均衡的运行状态</p>
+<p>在<code>metrics.json</code>中，其他的衡量指标是和后端节点的<code>connects</code>, <code>connections</code>，<code>request_latency</code>。</p>
+<p><code>/connects</code>：linkerd连接到一个pool的次数<br><code>/connections</code>：到有个pool的开放连接数<br><code>request_latency</code>：包含一个到pool的延迟直方图。这个与<code>loadbalancer/size</code>、<code>connections</code>一起能够帮组定位是否后端有足够的并发或者高效地处理当前的流量。</p>
+<h2 id="2-LOOK-FOR-DROPPED-PACKETS"><a href="#2-LOOK-FOR-DROPPED-PACKETS" class="headerlink" title="2. LOOK FOR DROPPED PACKETS"></a>2. LOOK FOR DROPPED PACKETS</h2><p>在一个拥堵的网络，丢包是有预示性的。网络拥堵将会导致99线，999线偶尔比预想值高。从linkerd的角度，因为网络拥堵引起的延迟与后端延迟是难以分辨的。</p>
 <a id="more"></a>
-<h2 id="2-SIDECAR部署"><a href="#2-SIDECAR部署" class="headerlink" title="2. SIDECAR部署"></a>2. SIDECAR部署</h2><p><img src="https://linkerd.io/images/diagram-sidecar-deployment.png" alt=""></p>
-<p>在sidecar部署模式中，每一个业务服务对应的部署一个linkerd实例。这种模式主要适用于主要实例、基于容器的服务实例等与host-based完全相反的实例。如在一个Kubernetes部署中，一个linkerd容器可以被当做Kubernetes “pod”的一部分来部署。服务实例可以访问linkerd实例，就像是在同一个host。</p>
-<p>sidecar部署需要很多的linkerd实例，每个需要较少的资源。这种模式，独立的linkerd实例相应地失去了与服务本身的映射。</p>
-<hr>
-<p>业务应用服务于linkerd交互有三种配置：</p>
-<ol>
-<li><strong>service-to-linker</strong></li>
-<li><strong>linker-to-service</strong></li>
-<li><strong>linker-to-linker</strong></li>
-</ol>
-<h3 id="2-1-SIDECAR-SERVICE-TO-LINKER部署"><a href="#2-1-SIDECAR-SERVICE-TO-LINKER部署" class="headerlink" title="2.1 SIDECAR SERVICE-TO-LINKER部署"></a>2.1 SIDECAR SERVICE-TO-LINKER部署</h3><p>每个服务实例通过对应的linkerd实例路由RPC请求。每个linkerd将服务对应的在固定位置的实例，并且将流量路由到远程服务。</p>
-<h3 id="2-2-SIDECAR-LINKER-TO-SERVICE部署"><a href="#2-2-SIDECAR-LINKER-TO-SERVICE部署" class="headerlink" title="2.2 SIDECAR LINKER-TO-SERVICE部署"></a>2.2 SIDECAR LINKER-TO-SERVICE部署</h3><p>应用服务实例不直接接受流量。相应地，sidecar linkerd在服务发现中被注册，因此直接接受进入的流量，并路由到对应的服务实例。</p>
-<h3 id="2-3-SIDECAR-LINKER-TO-LINKER部署"><a href="#2-3-SIDECAR-LINKER-TO-LINKER部署" class="headerlink" title="2.3 SIDECAR LINKER-TO-LINKER部署"></a>2.3 SIDECAR LINKER-TO-LINKER部署</h3><p>以上两种配置的合并，能够表现出两者的好处。linkerd在服务发现中注册，因此流量进入首先经过linkerd，然后转发到对应的服务实例，服务实例在运行调用返回结果时，通过linkerd返回结果。这几需要在linkerd配置中有两个路由:incoming 和outgoing</p>
-<p>一个涵盖三种模式的配置项：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">namers:</div><div class="line">- kind: io.l5d.fs</div><div class="line">  rootDir: disco</div><div class="line"></div><div class="line">routers:</div><div class="line"></div><div class="line"># Use this router for linkerd-to-service</div><div class="line"># This server should be registered in service discovery so that incoming traffic</div><div class="line"># is served here.</div><div class="line">- protocol: http</div><div class="line">  label: incoming</div><div class="line">  servers:</div><div class="line">  - port: 4140</div><div class="line">    ip: 0.0.0.0</div><div class="line">  # Route all incoming traffic to the application service</div><div class="line">  # (assumed to be running on port 8080)</div><div class="line">  baseDtab: |</div><div class="line">    /local =&gt; /$/inet/127.1/8080 ;</div><div class="line">    /http/1.1/*/* =&gt; /local ;</div><div class="line"></div><div class="line"># Use this router for service-to-linkerd</div><div class="line"># The matching service instance should send all outgoing traffic to port 4141</div><div class="line"># so that linkerd may route it appropriately.</div><div class="line">- protocol: http</div><div class="line">  label: outgoing</div><div class="line">  servers:</div><div class="line">  - port: 4141</div><div class="line">    ip: 0.0.0.0</div><div class="line">  # Route outgoing traffic based on the Host header</div><div class="line">  baseDtab: |</div><div class="line">    /srv      =&gt; /io.l5d.fs;</div><div class="line">    /http/1.1/* =&gt; /srv;</div><div class="line"></div><div class="line"># Use both above routers for linkerd-to-linkerd</div></pre></td></tr></table></figure>
+<p><code>ethtool -S eth0</code></p>
+<p><code>/sbin/ifconfig eth0</code> 也可以报告丢包信息</p>
+<p>一个症状就是999线将是200ms的N倍, 因为典型地操作系统超时重发的时间间隔是200ms</p>
+<h2 id="3-LOOK-FOR-DROPPED-SYN-PACKETS"><a href="#3-LOOK-FOR-DROPPED-SYN-PACKETS" class="headerlink" title="3.LOOK FOR DROPPED SYN PACKETS"></a>3.LOOK FOR DROPPED SYN PACKETS</h2><p>linux有两个TCP的队列，一个是包数据准备好给应用程序，另一个是接受SYN，在TCP握手时的信号数据包。</p>
+<p>如何查看丢失的SYN包:<br><code>while true; do netstat -s |grep TCPBacklogDrop; sleep 5; done</code><br>如果数据在不断增加，则是因为队列溢出而丢去SYN包。</p>
+<h2 id="4-LOOK-AT-SOCKET-TYPES-FOR-HOSTS-CONNECTING-TO-LINKERD"><a href="#4-LOOK-AT-SOCKET-TYPES-FOR-HOSTS-CONNECTING-TO-LINKERD" class="headerlink" title="4. LOOK AT SOCKET TYPES FOR HOSTS CONNECTING TO LINKERD"></a>4. LOOK AT SOCKET TYPES FOR HOSTS CONNECTING TO LINKERD</h2><p><code>watch -n 1 ss -tan &#39;sport = :4140&#39;</code><br>查看处于<code>TIME_WAIT</code>状态的SOCKET连接，<code>TIME_WAIT</code>socket连接和丢失SYN包告诉我们连接池不在使用或者在请求很少的情况下，系统重用之前连接，到linkerd。</p>
+<p>可以使用linkerd的<code>metric.json</code>来验证这些连接是否被重用或者在请求很少的时候被重用。</p>
+
       
     </div>
 
@@ -406,17 +378,13 @@ be a sidecar process
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/23/linkerd-getting-started/" rel="next" title="linkerd简介(4):快速开始">
-                <i class="fa fa-chevron-left"></i> linkerd简介(4):快速开始
+              <a href="/2016/08/24/linkerd-dtabs/" rel="next" title="linkerd简介(7):dtabs">
+                <i class="fa fa-chevron-left"></i> linkerd简介(7):dtabs
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/24/linkerd-kubernetes/" rel="prev" title="linkerd简介(6):kubernetes">
-                linkerd简介(6):kubernetes <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -431,10 +399,10 @@ be a sidecar process
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/08/23/linkerd-deployment/"
-     data-title="linkerd简介(5):部署"
+        <div class="ds-share flat" data-thread-key="2016/08/24/linkerd-network-performance/"
+     data-title="linkerd简介(8):network performance"
      data-content=""
-     data-url="http://yoursite.com/2016/08/23/linkerd-deployment/">
+     data-url="http://yoursite.com/2016/08/24/linkerd-network-performance/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -461,8 +429,8 @@ be a sidecar process
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/08/23/linkerd-deployment/"
-           data-title="linkerd简介(5):部署" data-url="http://yoursite.com/2016/08/23/linkerd-deployment/">
+      <div class="ds-thread" data-thread-key="2016/08/24/linkerd-network-performance/"
+           data-title="linkerd简介(8):network performance" data-url="http://yoursite.com/2016/08/24/linkerd-network-performance/">
       </div>
     
   </div>
@@ -566,7 +534,7 @@ be a sidecar process
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-PER-HOST部署"><span class="nav-text">1. PER-HOST部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-SIDECAR部署"><span class="nav-text">2. SIDECAR部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-SIDECAR-SERVICE-TO-LINKER部署"><span class="nav-text">2.1 SIDECAR SERVICE-TO-LINKER部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-SIDECAR-LINKER-TO-SERVICE部署"><span class="nav-text">2.2 SIDECAR LINKER-TO-SERVICE部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-SIDECAR-LINKER-TO-LINKER部署"><span class="nav-text">2.3 SIDECAR LINKER-TO-LINKER部署</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-LOOK-AT-BACKEND-LATENCIES"><span class="nav-text">1. LOOK AT BACKEND LATENCIES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-LOOK-FOR-DROPPED-PACKETS"><span class="nav-text">2. LOOK FOR DROPPED PACKETS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-LOOK-FOR-DROPPED-SYN-PACKETS"><span class="nav-text">3.LOOK FOR DROPPED SYN PACKETS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-LOOK-AT-SOCKET-TYPES-FOR-HOSTS-CONNECTING-TO-LINKERD"><span class="nav-text">4. LOOK AT SOCKET TYPES FOR HOSTS CONNECTING TO LINKERD</span></a></li></ol></div>
             
           </div>
         </section>

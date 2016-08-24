@@ -258,6 +258,115 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/24/linkerd-network-performance/" itemprop="url">
+                  linkerd简介(8):network performance
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T15:58:10+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/24/linkerd-network-performance/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-network-performance/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>原文链接: <a href="https://linkerd.io/doc/network-performance/">https://linkerd.io/doc/network-performance/</a></p>
+<p>linkerd是一个网络代理，因此linkerd的性能问题主要就是隐藏在后面网络性能问题。为了帮助定位这些问题，下面是一些常见的网络性能问题查看方法。</p>
+<h2 id="1-LOOK-AT-BACKEND-LATENCIES"><a href="#1-LOOK-AT-BACKEND-LATENCIES" class="headerlink" title="1. LOOK AT BACKEND LATENCIES"></a>1. LOOK AT BACKEND LATENCIES</h2><p>linkerd会把流量路由到响应快的后端节点，但是如果pool太小或者所有的后端节点都是同样的延迟。ps:经常在测试环境中pool大小为1或者2，linkerd就无法使用负载均衡来优化性能。</p>
+<p>查看<code>metrics.json</code> <code>loadbalancer</code>状态来查看pool的大小以及负载均衡的运行状态</p>
+<p>在<code>metrics.json</code>中，其他的衡量指标是和后端节点的<code>connects</code>, <code>connections</code>，<code>request_latency</code>。</p>
+<p><code>/connects</code>：linkerd连接到一个pool的次数<br><code>/connections</code>：到有个pool的开放连接数<br><code>request_latency</code>：包含一个到pool的延迟直方图。这个与<code>loadbalancer/size</code>、<code>connections</code>一起能够帮组定位是否后端有足够的并发或者高效地处理当前的流量。</p>
+<h2 id="2-LOOK-FOR-DROPPED-PACKETS"><a href="#2-LOOK-FOR-DROPPED-PACKETS" class="headerlink" title="2. LOOK FOR DROPPED PACKETS"></a>2. LOOK FOR DROPPED PACKETS</h2><p>在一个拥堵的网络，丢包是有预示性的。网络拥堵将会导致99线，999线偶尔比预想值高。从linkerd的角度，因为网络拥堵引起的延迟与后端延迟是难以分辨的。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/24/linkerd-network-performance/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/24/linkerd-dtabs/" itemprop="url">
                   linkerd简介(7):dtabs
                 </a>
@@ -688,122 +797,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/18/linkerd-routing/" itemprop="url">
-                  linkerd简介(3):routing
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-18T20:55:47+08:00" content="2016-08-18">
-              2016-08-18
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/18/linkerd-routing/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/18/linkerd-routing/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>原文地址: <a href="https://linkerd.io/doc/0.7.3/routing/">https://linkerd.io/doc/0.7.3/routing/</a></p>
-<p>linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。</p>
-<p>这个过程包括4步：</p>
-<pre><code>1. identification 
-2. delegation
-3. binding
-4. load balancing
-</code></pre><p>该流程还有部分转移到<code>namerd</code></p>
-<p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/18/linkerd-routing/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -844,7 +842,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
