@@ -304,7 +304,7 @@ be a sidecar process
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
                 <a href="/2016/08/23/linkerd-deployment/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/23/linkerd-deployment/" itemprop="commentsCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/linkerd-deployment/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -442,11 +442,8 @@ be a sidecar process
           
   <div class="comments" id="comments">
     
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
+      <div class="ds-thread" data-thread-key="2016/08/23/linkerd-deployment/"
+           data-title="linkerd简介(5):部署" data-url="http://yoursite.com/2016/08/23/linkerd-deployment/">
       </div>
     
   </div>
@@ -664,30 +661,30 @@ be a sidecar process
 
   
 
-
-
+  
+    
   
 
-    <script type="text/javascript">
-      var disqus_shortname = 'talisman';
-      var disqus_identifier = '2016/08/23/linkerd-deployment/';
-      var disqus_title = "linkerd简介(5):部署";
-      var disqus_url = 'http://yoursite.com/2016/08/23/linkerd-deployment/';
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"talisman"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-      
-        run_disqus_script('embed.js');
-      
-    </script>
   
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
 
 
 
