@@ -308,8 +308,7 @@
 
       
         
-          
-            <font color="red">PPT FROM ApacheCon North America, May 2016</font>
+          <font color='red'>PPT FROM ApacheCon North America, May 2016</font>
 
 
 <h2 id="1-Twitter"><a href="#1-Twitter" class="headerlink" title="1. Twitter"></a>1. Twitter</h2><h3 id="1-1-数据介绍-2010"><a href="#1-1-数据介绍-2010" class="headerlink" title="1.1 数据介绍 2010"></a>1.1 数据介绍 2010</h3><p>10<sup>7</sup> users   用户<br>10<sup>7</sup> tweets/day 发推数<br>10<sup>2</sup> engineers  工程师<br>10<sup>1</sup> services   服务<br>10<sup>1</sup> deploys/week  发布/周<br>10<sup>2</sup> hosts    节点<br>0 datacenters   数据中心<br>10<sup>1</sup> user-facing outages/week  人工介入的中断 </p>
@@ -325,70 +324,11 @@
 <li>deploys 发布</li>
 </ol>
 <p>严重不对称，服务资源不足。</p>
-<h3 id="1-3-automating-the-datacenter"><a href="#1-3-automating-the-datacenter" class="headerlink" title="1.3 automating the datacenter"></a>1.3 automating the datacenter</h3><p><strong>mesos</strong>: Abstracts compute resources<br><code>don’t worry about the hosts</code></p>
-<p><strong>aurora</strong>: Schedules processes on Mesos 调度<br><code>no more puppet, monit, etc</code></p>
-<p>4层资源架构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">		appA		appB	 	appC</div><div class="line">			Aurora(Marathon...)	</div><div class="line">					mesos</div><div class="line">host	host	host	host	host	host</div></pre></td></tr></table></figure>
-<h3 id="1-4-microservices-微服务"><a href="#1-4-microservices-微服务" class="headerlink" title="1.4 microservices 微服务"></a>1.4 microservices 微服务</h3><p><strong><em>flexibility</em></strong>:</p>
-<pre><code>performance    高性能
-correctness    正确性    
-monitoring    可监控
-debugging        可调试
-efficiency    高效率
-security        安全性
-resilience    弹性
-</code></pre><p>Resilience is an imperative: our software runs on the truly dismal computers we call datacenters. Besides being heinously  complex… they are unreliable and prone to  operator error.<br>软件运行在普通的计算机组成的数据中心，除了架构复杂外，还是不可靠的，容易出现操作错误。</p>
-<p>微服务中的resilience要求:</p>
-<pre><code>software you didn&apos;t write
-hardware you can&apos;t touch
-network you can&apos;t configure
-</code></pre><p>必须找到一种全新的方式，还要客户应用无感知。</p>
-<p><img src="/images/linkerd/7layer.png" alt=""></p>
-<p>第5层在4层连接中分发请求。<br>就有了5层通信方案Finagle</p>
-<h3 id="1-5-Finagle"><a href="#1-5-Finagle" class="headerlink" title="1.5     Finagle"></a>1.5     Finagle</h3><p>github:<a href="github.com/twitter/finagle">github.com/twitter/finagle</a></p>
-<p>主要特征:</p>
-<pre><code>RPC library(JVM) RPC库
-asynchrounous 异步 
-built on Netty 基于Netty
-scala scala编写
-    functional 函数式编程
-    strongly typed 强类型
-first commit:2010.10
-</code></pre><p>Finagle功能:</p>
-<pre><code>transport security    安全传输
-service discovery    服务发现
-circuit breaking        中断
-backpressure            
-deadlines
-retries                重试
-tracing                路径追踪
-metrics                性能衡量
-keep-alive            长连接
-multiplexing            复用
-load balancing        负载均衡
-per-request routing    单一请求路由
-service-level objectives    
-</code></pre><p>微服务框架中，服务组件越多，出现的问题也越多。</p>
-<h3 id="1-6-load-balancing-at-layer-5负载均衡"><a href="#1-6-load-balancing-at-layer-5负载均衡" class="headerlink" title="1.6 load balancing at layer 5负载均衡"></a>1.6 load balancing at layer 5负载均衡</h3><p>算法:</p>
-<pre><code>round-robin
-fewest-connections
-queue-depth
-exponentially-weighted moving average（ewma）
-aperture
-</code></pre><p><img src="/images/linkerd/load-balancing.png" alt=""></p>
-<h2 id="2-linkerd"><a href="#2-linkerd" class="headerlink" title="2. linkerd"></a>2. linkerd</h2><p>github:<a href="github.com/buoyantio/linkerd">github.com/buoyantio/linkerd</a></p>
-<p>特征:</p>
-<pre><code>microserivce rpc proxy 微服务rpc代理(重点在代理)
-    layer-5 router 5层上的路由
-    l5d    简写为l5d
-built on finagle&amp;netty
-pluggable    插件式
-    http、thrift...
-    etcd,consul,kuberbetes,marathon,zookeeper...
-</code></pre><h3 id="2-1-namerd"><a href="#2-1-namerd" class="headerlink" title="2.1 namerd"></a>2.1 namerd</h3><p>centralized routing policy<br>delegates logical names to service discovery<br>pluggable<br>    etcd<br>    kubernetes<br>    zookeeper<br>    …</p>
-<p><img src="/images/linkerd/namerd.png" alt=""></p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/25/finagle-linkerd-mesos/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
