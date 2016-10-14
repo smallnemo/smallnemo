@@ -258,8 +258,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/15/personalized-rec-system/" itemprop="url">
-                  个性化推荐系统简介
+                <a class="post-title-link" href="/2016/08/23/linkerd-getting-started/" itemprop="url">
+                  linkerd简介(4):快速开始
                 </a>
               
             
@@ -272,8 +272,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-15T13:35:46+08:00" content="2016-08-15">
-              2016-08-15
+            <time itemprop="dateCreated" datetime="2016-08-23T15:30:23+08:00" content="2016-08-23">
+              2016-08-23
             </time>
           </span>
 
@@ -283,8 +283,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/15/personalized-rec-system/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/15/personalized-rec-system/" itemprop="commentsCount"></span>
+                <a href="/2016/08/23/linkerd-getting-started/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/linkerd-getting-started/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -308,23 +308,21 @@
 
       
         
-          <h2 id="1-推荐系统背景"><a href="#1-推荐系统背景" class="headerlink" title="1. 推荐系统背景"></a>1. 推荐系统背景</h2><p>随着信息技术和互联网的发展，互联网的高速变化，人们逐渐从信息匮乏时代发展到信息过载的时代。 在信息海洋中，无论是信息的生产者还是信息的消费者，都遇到很大的挑战。一方是消费者要从海量信息中获取感兴趣的东西；另一方面信息生产者要从海量用户中找到潜在关注用户。  </p>
-<p>信息获取的方式从：雅虎的分类导航、到搜索引擎(Google、baidu)、再到推荐系统(Amazon、Netflix)。</p>
-<p>推荐系统正是解决海量生产者海量消费者模糊兴趣匹配的问题最佳选择。 推荐系统能在用户没有明确目的的情况下帮助用户发现他们感兴趣的新内容。  </p>
-<p>推荐 VS 搜索</p>
-<pre><code>搜索需要明确的用户需求
-推荐系统不需要明确的用户需求
-曾经的团购网站只有浏览，没有搜索框。
-</code></pre><p>推荐系统使用场景：</p>
-<pre><code>新闻阅读类（今日头条）
-电商网站(Amazon、Taobao、JD)
-社交网站(微博)
-音乐播放器(网易云音乐)
-个性化广告(精细化广告平台)
-基于位置服务的应用(大众点评、陌陌)
-</code></pre>
+          <p>原文地址：<a href="https://linkerd.io/doc/getting-started/">https://linkerd.io/doc/getting-started/</a>    </p>
+<p>简单使用linkerd的基本步骤。</p>
+<h2 id="1-需要组件"><a href="#1-需要组件" class="headerlink" title="1. 需要组件"></a>1. 需要组件</h2><p>运行linkerd，需要java8</p>
+<blockquote>
+<p>$ java -version<br>java version “1.8.0_66”</p>
+</blockquote>
+<p>linkerd支持Oracle和OpenJDK的JAVA。</p>
+<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Download Oracal Java8</a><br><a href="http://openjdk.java.net/install/">Download OpenJDK8</a></p>
+<h2 id="2-下载和安装"><a href="#2-下载和安装" class="headerlink" title="2. 下载和安装"></a>2. 下载和安装</h2><p>下载linkerd: <a href="https://github.com/BuoyantIO/linkerd/releases">https://github.com/BuoyantIO/linkerd/releases</a></p>
+<p>下载之后：</p>
+<blockquote>
+<p>$ tar -zxf linkerd-0.7.3.tgz<br>$ cd linkerd-0.7.3</p>
+</blockquote>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/15/personalized-rec-system/#more" rel="contents">
+            <a class="btn" href="/2016/08/23/linkerd-getting-started/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -375,8 +373,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/14/hello-nemo/" itemprop="url">
-                  First Blog
+                <a class="post-title-link" href="/2016/08/18/linkerd-routing/" itemprop="url">
+                  linkerd简介(3):routing
                 </a>
               
             
@@ -389,8 +387,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-14T14:47:22+08:00" content="2016-08-14">
-              2016-08-14
+            <time itemprop="dateCreated" datetime="2016-08-18T20:55:47+08:00" content="2016-08-18">
+              2016-08-18
             </time>
           </span>
 
@@ -400,8 +398,119 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/14/hello-nemo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/14/hello-nemo/" itemprop="commentsCount"></span>
+                <a href="/2016/08/18/linkerd-routing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/18/linkerd-routing/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>原文地址: <a href="https://linkerd.io/doc/0.7.3/routing/">https://linkerd.io/doc/0.7.3/routing/</a></p>
+<p>linkerd的主要工作是路由:接收一个request，将request转发至正确的服务器。接下来将详细描述linkerd的如何做目的选择的。</p>
+<p>这个过程包括4步：</p>
+<pre><code>1. identification 
+2. delegation
+3. binding
+4. load balancing
+</code></pre><p>该流程还有部分转移到<code>namerd</code></p>
+<p><img src="https://linkerd.io/images/routing.png" alt="routing"></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/18/linkerd-routing/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/17/linkerd-overview/" itemprop="url">
+                  linkerd简介(2):overview
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-17T17:03:31+08:00" content="2016-08-17">
+              2016-08-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/17/linkerd-overview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/linkerd-overview/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -426,7 +535,268 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">之前的hexo文件夹被删除，所有的内容都bye bye了。     </div><div class="line">so this is the first blog</div></pre></td></tr></table></figure>
+            <p>原文链接：<a href="https://linkerd.io/doc/0.7.3/overview/" target="_blank" rel="external">https://linkerd.io/doc/0.7.3/overview/</a></p>
+<p>当前版本: <font color="green" size="+1">0.7.3</font></p>
+<p>linkerd在JVM层面没有任何依赖，明确的设计能够适用于已有的应用程序。它能与很多的现有组件配合，如:RPC和服务发现机制设施、遥感指标、格式化规则、现代的展示如仪表盘、默认值、可控制范围的配置功能等。</p>
+<h2 id="1-快速开始"><a href="#1-快速开始" class="headerlink" title="1. 快速开始"></a>1. 快速开始</h2><p>linkerd以一个基础配合开始。该配置的路由规则是允许服务发现使用简单的<a href="https://linkerd.io/doc/0.7.3/linkerd/namer#fs" target="_blank" rel="external"><code>file-based service discovery mechanism</code></a></p>
+<p>在这个简单配置中，linkerd将<code>loclahost:4140</code>的<code>HTTP</code>请求路由到<code>localhost:9999</code>, Host的HTTP Request header信息设置为‘web’。 同时会将thrift请求从<code>localhost:4141</code>路由到<code>localhost:9998</code>.</p>
+<p>更多的使用linkerd在本地运行的资料见:<a href="https://linkerd.io/doc/getting-started/" target="_blank" rel="external"><code>Getting Started Guide</code></a></p>
+<h2 id="2-如何使用"><a href="#2-如何使用" class="headerlink" title="2. 如何使用"></a>2. 如何使用</h2><p>应用程序典型的使用linkerd方式：在已知位置部署运行linkerd实例，然后通过这些实例代理转发RPC请求。因为linkerd实例是无状态和独立的，所以可以独立地部署在各个环境中，最大限度地减少与应用程序的耦合。</p>
+<p>通过延迟调用到linkerd，业务代码将与以下部分分离:</p>
+<pre><code>1. 生产环境拓扑
+2. 服务发现机制设施
+3. 负载均衡和物理连接控制
+</code></pre><p>应用程序也从该持续的、全局的流量控制设施中获得极大好处。这对与一个多种语言的程序特别重要。</p>
+<h2 id="3-基本概念"><a href="#3-基本概念" class="headerlink" title="3. 基本概念"></a>3. 基本概念</h2><p>下面有一些对理解linkerd十分有帮助的概念。</p>
+<h2 id="3-1-address"><a href="#3-1-address" class="headerlink" title="3.1 address"></a>3.1 address</h2><p><code>address</code>就是一个ip加port的组合,一般通过<code>:</code>连接。如<code>localhost:1234</code></p>
+<h2 id="3-2-concrete-name"><a href="#3-2-concrete-name" class="headerlink" title="3.2 concrete name"></a>3.2 concrete name</h2><p><code>concrete name</code> 就是一组地址的名称，典型地用于一些服务发现组件。<code>concrete name</code>可能会被存储到DNS或者Zookeeper. linkerd 仅仅把<code>concrete name</code>当做一个字符串，不会去解析它。</p>
+<h2 id="3-3-logic-name"><a href="#3-3-logic-name" class="headerlink" title="3.3 logic name"></a>3.3 logic name</h2><p><code>logic name</code>就是一个RPC服务在运行时的描述。    如：一个名叫<code>users</code>的服务想请求<code>sessions</code>服务，logic name可能就是<code>sessions</code>。</p>
+<h1 id="4-服务发现"><a href="#4-服务发现" class="headerlink" title="4. 服务发现"></a>4. 服务发现</h1><p>大部分复杂的内部多个服务的程序都源于服务发现。但是，随着应用的复杂性增加和服务规模的扩大，服务发现变得越来越难以避免。linkerd通过以下方式来降低复杂度:</p>
+<pre><code>1. 抽象出详细的底层服务发现机制
+2. 提供升级路径，能够选择合适的服务发现终点
+3. 在生产环境系统中多年的服务发现经验的基础上鼓励更好的实践
+</code></pre><p>linkerd的服务发现机制是把服务发现信息当做一个可能的资源<code>advisory</code>，如果一个地址从服务发现中删除，linkerd可能会继续发送请求到改地址。相反地，如果一个地址被加入到服务发现中，linkerd也许会选举决定不发送请求到该地址(如load balance)。这源于多年的生产经验，它帮助保护服务发现中的失败。 </p>
+<h1 id="5-负载均衡"><a href="#5-负载均衡" class="headerlink" title="5. 负载均衡"></a>5. 负载均衡</h1><p>对于所有可扩展的系统中，负载均衡都是一个十分关键的组件。通过智能分布流量到一个集合终端的各个节点，即使终端集合是动态更新的，当节点失败或者响应变慢的时候，一个优秀的负载均衡组件能够减少长尾延迟，提高系统的可用性。</p>
+<p>linkerd提供了一系列优秀的负载均衡算法，包括 <code>least loaded</code>、<code>EWMA</code>、<code>aperture</code>。这些算法在Twitter等公司经过了大规模的测试验证。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/17/GitHub-Hexo-Godaddy/" itemprop="url">
+                  GitHub+Hexo+Godaddy快速搭建个人博客
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-17T10:16:48+08:00" content="2016-08-17">
+              2016-08-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/17/GitHub-Hexo-Godaddy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/GitHub-Hexo-Godaddy/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h1><p>最近在折腾博客，然后室友就推荐用github，免费。而且有很多很方便的工具，他推荐了hexo。</p>
+<p>这两天也在自己看着教程搞，中途难免有一些坑。现在将总体流程及一些小的Tips记下来。<br>最后再加上了自己的域名，就是现在的这个网页了。</p>
+<p>言归正传，主要步骤如下(适用于Mac和Linux)：</p>
+<pre><code>NodeJs+Hexo (就这两个有先后顺序)
+Github
+Godaddy
+</code></pre><h1 id="2-主要步骤"><a href="#2-主要步骤" class="headerlink" title="2. 主要步骤"></a>2. 主要步骤</h1><p>ps:<font color='red'>事先提醒一下，很多时候发现安装出错，第一解决方法就是命令前加上sudo，用管理员权限安装，这招屡试不爽。</font></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/17/GitHub-Hexo-Godaddy/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/16/linkerd/" itemprop="url">
+                  linkerd简介(1):Introduction
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-16T14:47:22+08:00" content="2016-08-16">
+              2016-08-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/16/linkerd/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/16/linkerd/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-Intro"><a href="#1-Intro" class="headerlink" title="1. Intro"></a>1. Intro</h2><p>原文链接:<a href="https://linkerd.io/doc/introduction/" target="_blank" rel="external">https://linkerd.io/doc/introduction/</a> </p>
+<p>linkerd是一个专门为微服务设计的RPC代理， 它帮助服务实现：</p>
+<ul>
+<li>safe 安全</li>
+<li>reliable 可靠</li>
+<li>performance 高性能</li>
+<li>load balancing 负载均衡</li>
+<li>connection pooling 连接池</li>
+<li>session management 会话管理</li>
+<li>instrumentation 仪表盘数据</li>
+<li>routing 路由</li>
+</ul>
+<p>linkerd用来解决类似于Yahoo、Twitter、Google和MicroSoft等公司的大型业务系统问题。在我们的经验中，最复杂的问题并不是服务本身，而是服务之间的通信。linkerd就是用来解决这些问题的：不仅控制通信机制，而且在上层提供一层抽象。</p>
+<center><img src="https://linkerd.io/images/diagram-individual-instance.png" alt=""><br><font size="+1">linkerd作为应用程序的一个RPC代理 </font></center>
+
+<p>通过从应用程序代码中解耦RPC的机制，linkerd允许在不修改业务代码的基础上改变RPC机制。如：linkerd通过升级路径来实现服务发现， 以简单的静态主机列表，达到zookeeper或者consul等的全面解决方案。</p>
+<p>通过提供一套持续通用的仪表展示和服务控制，独立的服务程序语言， linkerd让用户选择任何适合他们服务的语言。</p>
+<p>linkerd搭建在twitter的大规模RPC库Finagle基础之上。在Twitter还是其他公司，Fingale能够很好的完成复杂应用和高流量的各种业务调用。通过使用Finagle，linkerd可以利用经过千万级RPC调用流量测试验证过的代码、算法和方法。</p>
+<h3 id="1-1-linkerd’s-feature"><a href="#1-1-linkerd’s-feature" class="headerlink" title="1.1 linkerd’s feature"></a>1.1 linkerd’s feature</h3><ul>
+<li>Intelligent, adaptive load-balancing. 智能的、自适应的负载均衡。 因为操作在RPC层，linkerd可以根据<code>RPC调用延迟</code>和<code>队列长度</code>来进行负载均衡，这比诸如LRU或者TCP活跃性的启发式机制更好。 通过linkerd可以优化流量分布和减少长尾延迟。</li>
+<li>Global, fine-grained instrumentation. 全局的、细维度的仪表数据展示。linkerd提供通信延迟、负载量的详细矩阵图数据，也包括成功率和负载均衡的统计，以人识别的展示方式和机器识别的展示方式。使用linkerd，即使是多种语言的应用，也可以在集中一个地方查看到一个连续的、全局的性能数据。</li>
+<li>Application-centric naming 以应用为中心命名</li>
+<li>Powerful traffic routing mechanisms.路由机制。 linkerd的路由层解耦了应用的流量服务拓扑和部署拓扑。 这意味着：灰度部署、ABTest部署、暗流量等，可以在流量控制中快速、控制范围、可回滚的实现，而不是代码部署。</li>
+</ul>
+<h3 id="1-2-linkerd使用"><a href="#1-2-linkerd使用" class="headerlink" title="1.2 linkerd使用"></a>1.2 linkerd使用</h3><p>linked作为一个分离的独立的代理运行，与语言和需要的库无关。相比于与目的服务应用直接通信，本地的linkerd实例可以看成是远程的目的服务实例，应用程序只用连接到本地的linkerd实例。在这里，linkerd接受路由规则、与存在的服务发现设施通信、目的实例的负载均衡、所有的通信和报告指标。</p>
+<p>linkerd实例有两种部署方式：</p>
+<pre><code>1. sidecars  一个应用服务实例对应一个linkerd实例
+2. per-host    一个目的host一个linkerd实例
+</code></pre><p>linkerd实例是无状态和独立的，可以快速加入已存在的部署拓扑中。</p>
+<p>linkerd支持多种通用的RPC格式。如：<font color="red"><code>HTTP、mux、thrift</code></font></p>
 
           
         
@@ -459,7 +829,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -500,7 +870,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -510,7 +880,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -258,8 +258,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/25/finagle-linkerd-mesos/" itemprop="url">
-                  Finagle,Linkerd,and Mesos Twitter-style microservices at scale
+                <a class="post-title-link" href="/2016/10/14/cat-server/" itemprop="url">
+                  cat-server源码分析
                 </a>
               
             
@@ -272,8 +272,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-25T15:50:17+08:00" content="2016-08-25">
-              2016-08-25
+            <time itemprop="dateCreated" datetime="2016-10-14T17:37:47+08:00" content="2016-10-14">
+              2016-10-14
             </time>
           </span>
 
@@ -283,8 +283,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/25/finagle-linkerd-mesos/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/25/finagle-linkerd-mesos/" itemprop="commentsCount"></span>
+                <a href="/2016/10/14/cat-server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/14/cat-server/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -308,472 +308,465 @@
 
       
         
-          <font color='red'>PPT FROM ApacheCon North America, May 2016</font>
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
 
 
-<h2 id="1-Twitter"><a href="#1-Twitter" class="headerlink" title="1. Twitter"></a>1. Twitter</h2><h3 id="1-1-数据介绍-2010"><a href="#1-1-数据介绍-2010" class="headerlink" title="1.1 数据介绍 2010"></a>1.1 数据介绍 2010</h3><p>10<sup>7</sup> users   用户<br>10<sup>7</sup> tweets/day 发推数<br>10<sup>2</sup> engineers  工程师<br>10<sup>1</sup> services   服务<br>10<sup>1</sup> deploys/week  发布/周<br>10<sup>2</sup> hosts    节点<br>0 datacenters   数据中心<br>10<sup>1</sup> user-facing outages/week  人工介入的中断 </p>
-<p><img src="https://g.twimg.com/blog/s800/chart-tweets-per-day3.png" alt="Tweets per day"></p>
-<h3 id="1-2-Monorail-2010"><a href="#1-2-Monorail-2010" class="headerlink" title="1.2 Monorail 2010"></a>1.2 Monorail 2010</h3><p>10<sup>3</sup> of RPS<br>10<sup>2</sup> of RPS/host<br>10<sup>1</sup> of RPS/process   </p>
-<p>三层架构:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">	hardware lb</div><div class="line">	the monorail</div><div class="line">mysql	memcache	kestrel</div></pre></td></tr></table></figure>
-<p>主要问题:</p>
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/10/cat-client/" itemprop="url">
+                  cat-client源码分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T10:25:23+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/10/cat-client/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/cat-client/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
+<h2 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h2><p>在程序启动的时候，主要初始化了以下模块:</p>
 <ol>
-<li>Ruby perfomance 性能</li>
-<li>Mysql scaling 扩展</li>
-<li>MemCache operability  可操作性</li>
-<li>deploys 发布</li>
+<li>TcpSocketSender  用于连接cat服务器，通过netty异步发送消息(MessageTree)</li>
+<li>ClientConfigManager 读取服务端配置，应用基本信息等(domain,appname,ip)</li>
+<li>StatusUpdateTask 定时任务，每分钟获取一次心跳报文(HeartBeat)作为消息发送到服务器</li>
 </ol>
-<p>严重不对称，服务资源不足。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/25/finagle-linkerd-mesos/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/24/linkerd-network-performance/" itemprop="url">
-                  linkerd简介(8):network performance
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T15:58:10+08:00" content="2016-08-24">
-              2016-08-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/24/linkerd-network-performance/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-network-performance/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>原文链接: <a href="https://linkerd.io/doc/network-performance/">https://linkerd.io/doc/network-performance/</a></p>
-<p>linkerd是一个网络代理，因此linkerd的性能问题主要就是隐藏在后面网络性能问题。为了帮助定位这些问题，下面是一些常见的网络性能问题查看方法。</p>
-<h2 id="1-LOOK-AT-BACKEND-LATENCIES"><a href="#1-LOOK-AT-BACKEND-LATENCIES" class="headerlink" title="1. LOOK AT BACKEND LATENCIES"></a>1. LOOK AT BACKEND LATENCIES</h2><p>linkerd会把流量路由到响应快的后端节点，但是如果pool太小或者所有的后端节点都是同样的延迟。ps:经常在测试环境中pool大小为1或者2，linkerd就无法使用负载均衡来优化性能。</p>
-<p>查看<code>metrics.json</code> <code>loadbalancer</code>状态来查看pool的大小以及负载均衡的运行状态</p>
-<p>在<code>metrics.json</code>中，其他的衡量指标是和后端节点的<code>connects</code>, <code>connections</code>，<code>request_latency</code>。</p>
-<p><code>/connects</code>：linkerd连接到一个pool的次数<br><code>/connections</code>：到一个pool的开放连接数<br><code>request_latency</code>：包含一个到pool的延迟直方图。这个与<code>loadbalancer/size</code>、<code>connections</code>一起能够帮组定位是否后端有足够的并发或者高效地处理当前的流量。</p>
-<h2 id="2-LOOK-FOR-DROPPED-PACKETS"><a href="#2-LOOK-FOR-DROPPED-PACKETS" class="headerlink" title="2. LOOK FOR DROPPED PACKETS"></a>2. LOOK FOR DROPPED PACKETS</h2><p>在一个拥堵的网络，丢包是有预示性的。网络拥堵将会导致99线，999线偶尔比预想值高。从linkerd的角度，因为网络拥堵引起的延迟与后端延迟是难以分辨的。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/24/linkerd-network-performance/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/24/linkerd-dtabs/" itemprop="url">
-                  linkerd简介(7):dtabs
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T14:16:11+08:00" content="2016-08-24">
-              2016-08-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/24/linkerd-dtabs/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-dtabs/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>原文地址: <a href="https://linkerd.io/doc/dtabs/">https://linkerd.io/doc/dtabs/</a></p>
-<p><strong><code>Dtabs</code></strong>就是一系列路由规则的集合，这些规则存储<code>logic path</code>(如: 一家货运公司)并且将他们转换为定位它们的<code>concrete name</code>(如:成都市天府软件园E3)。这个过程我们称之为<code>resolution</code>,它主要涉及一些列前缀的改写。</p>
-<p>除了这些文件，你可以参考Twitter的<a href="http://twitter.github.io/finagle/guide/Names.html">Finagle’s dtab docs</a>, 也可以通过运行linkerd实例后，浏览<a href="http://localhost:9990/delegator">http://localhost:9990/delegator</a> 来体验dtab。</p>
-<h2 id="1-PATHS"><a href="#1-PATHS" class="headerlink" title="1. PATHS"></a>1. PATHS</h2><p>最简单的dtab就是单条规则。(称为dentry)</p>
-<pre><code>/56qqCorp =&gt; /softwarepark;
-</code></pre><p>这条规则只对<code>56qq Corp</code>有效，对其他前缀的路径无效。</p>
-<p>但是对于路径 <code>/56qqCorp/tech</code>, 前缀满足规则的左边部分。将会被替换为<code>/softwarepark/tech</code>。</p>
-<h2 id="2-DENTRIES-amp-ORDER-次序"><a href="#2-DENTRIES-amp-ORDER-次序" class="headerlink" title="2. DENTRIES &amp; ORDER(次序)"></a>2. DENTRIES &amp; ORDER(次序)</h2><p><strong>Dtabs</strong>大部分时候有一些列dentry。 比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/smitten       =&gt; /USA/CA/SF/Octavia/432;</div><div class="line">/iceCreamStore =&gt; /smitten;</div><div class="line">/iceCreamStore =&gt; /humphrys;</div></pre></td></tr></table></figure>
-<p>当我们尝试解决匹配对个前缀的路径时，<font color='red'><strong>靠后的匹配优先</strong></font>。 所以路径<code>/iceCreamStore/try/allFlavors</code>首先会转换为<code>/humphrys/try/allFlavors</code>。然后，如果humphrys的地址无法感知，我们就会失败回退使用<code>/smitten/try/allFlavors</code>，进一步路径修改，最终变为<code>/USA/CA/SF/Octavia/432/try/allFlavors</code>。</p>
-<h3 id="2-1-STEP-BY-STEP-EXAMPLE"><a href="#2-1-STEP-BY-STEP-EXAMPLE" class="headerlink" title="2.1 STEP-BY-STEP EXAMPLE"></a>2.1 STEP-BY-STEP EXAMPLE</h3><p>比如dtab:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/iceCreamStore    =&gt; /smitten;</div><div class="line">/smitten/try      =&gt; /smittenLocation/waitInLine/thenTry;</div><div class="line">/smittenLocation  =&gt; /sanfrancisco/octavia/432;</div><div class="line">/california       =&gt; /USA/CA;</div><div class="line">/sanfrancisco     =&gt; /california/SF;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/24/linkerd-dtabs/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/24/linkerd-kubernetes/" itemprop="url">
-                  linkerd简介(6):kubernetes
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T09:32:33+08:00" content="2016-08-24">
-              2016-08-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/24/linkerd-kubernetes/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-kubernetes/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>英文原文地址：<a href="https://linkerd.io/doc/0.7.4/k8s/">https://linkerd.io/doc/0.7.4/k8s/</a></p>
-<p>本文主要介绍在Kubernetes里面部署linkerd。 关于Kubernetes的介绍，可以参考<a href="http://blog.csdn.net/zhangjun2915/article/details/40598151">Kubernetes初探</a></p>
-<p>更多的关于部署拓扑的信息，请参考<a href="https://linkerd.io/doc/0.7.4/deployment">Deployment Guide</a>。</p>
-<p>首先，需要编写一个linkerd的配置文件。下面的例子配置了两个路由，一个在8080端口接收HTTP流量，并转发到一个监听7000端口的服务。另一个路由通过<code>disco</code>配置的服务路由内部流量。在此我们使用一个通过运行在8001端口<code>kubectl proxy</code>与K8s集群接口交互的k8s namer。</p>
-<p>配置文件如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">namers:</div><div class="line">- kind: io.l5d.k8s</div><div class="line">  experimental: true</div><div class="line">  host: 127.0.0.1</div><div class="line">  port: 8001</div><div class="line"></div><div class="line">routers:</div><div class="line">- protocol: http</div><div class="line">  label: ext</div><div class="line">  servers:</div><div class="line">  - port: 8080</div><div class="line">    ip: 0.0.0.0</div><div class="line">  baseDtab: |</div><div class="line">    /www          =&gt; /$/inet/127.1/7000;</div><div class="line">    /http/1.1/*/* =&gt; /www;</div><div class="line">- protocol: http</div><div class="line">  label: int</div><div class="line">  servers:</div><div class="line">  - port: 4140</div><div class="line">    ip: 0.0.0.0</div><div class="line">  baseDtab: |</div><div class="line">    /iface      =&gt; /#/io.l5d.k8s/$NAMESPACE;</div><div class="line">    /srv        =&gt; /iface/rest;</div><div class="line">    /http/1.1/* =&gt; /srv;</div></pre></td></tr></table></figure>
-<p>确保配置文件中的<code>Dtabs</code>能路由到想访问的所有服务。一旦配置文件确定之后，就必须把配置文件写入Kubernetes中运行的linkerd容器。推荐的方法就是使用<a href="http://kubernetes.io/docs/user-guide/secrets/">k8s secrets</a>。</p>
-<p>一个k8s scerets的例子：<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/24/linkerd-kubernetes/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/23/linkerd-deployment/" itemprop="url">
-                  linkerd简介(5):部署
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-23T16:42:44+08:00" content="2016-08-23">
-              2016-08-23
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/23/linkerd-deployment/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/linkerd-deployment/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>原文地址:<a href="https://linkerd.io/doc/0.7.3/deployment/">https://linkerd.io/doc/0.7.3/deployment/</a></p>
-<p>除了JVM,linkerd没有其它依赖。它很明确的设计来适应已存在应用的部署，可以和多种RPC协同工作。linkerd主要有两种部署方式：</p>
+<h2 id="2-业务使用"><a href="#2-业务使用" class="headerlink" title="2. 业务使用"></a>2. 业务使用</h2><p>在cat-client中，定义了3类消息(<code>Message</code>)</p>
 <ol>
-<li><strong>per-host</strong></li>
-<li><strong>be a sidecar process</strong> </li>
+<li><code>Transaction</code> 事务类，可嵌套，可统计业务逻辑执行时间</li>
+<li><code>Event</code>    事件类，不可嵌套，近统计次数及衍生指标</li>
+<li><code>HeartBeat</code> 心跳报文，监控系统、JVM各种指标信息，与Message类似(该项cat已经配置好，一般不在业务代码中使用)</li>
 </ol>
-<h2 id="1-PER-HOST部署"><a href="#1-PER-HOST部署" class="headerlink" title="1. PER-HOST部署"></a>1. PER-HOST部署</h2><p><img src="https://linkerd.io/images/diagram-per-host-deployment.png" alt=""></p>
-<p>在per-host部署模式中，每个host(物理还是虚拟)部署一个linkerd实例，在改主机的所有应用服务实例都使用同一个linkerd实例进行RPC路由。</p>
-<p>这种模式主要适用于host-based部署。主机上的每一个服务应用实例能在固定位置(如：<code>localhost:4140</code>)找到对应的linkerd实例，而不需要客户端额外的配置。</p>
-<p>这种模式要求linkerd实例支持高并发，需要较多的资源支持。这种模式，一个独立的linkerd实例相应地失去了主机本身。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/23/linkerd-deployment/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+<p>ps: cat的所有消息都是基于同线程收集，同一jvm不同线程的消息无关联</p>
+<h3 id="2-1-Transaction"><a href="#2-1-Transaction" class="headerlink" title="2.1 Transaction"></a>2.1 Transaction</h3><p>使用事务消息，主要步骤是:</p>
+<ol>
+<li><p>Cat.newTransaction(type, name)<br>生成一个事务实例t，获取存储线程上下文信息，将该实例t加入MessageTree，加入堆栈（主要是为了判断嵌套）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DefaultMessageProducer.newTransaction()</div><div class="line">	::m_manager.start(transaction, false)</div><div class="line">		::ctx.start(transaction, forked)</div></pre></td></tr></table></figure>
+</li>
+<li><p>执行业务逻辑</p>
+</li>
+<li>加入附加信息，t.addData()  //该项可选</li>
+<li>t.setStatus(true|false) //Message.SUCCESS = “0”表示成功，其他都表示失败</li>
+<li>t.complete() 此项一定要执行，表示事务t的结束。<br> 结束处理逻辑主要是:如果堆栈为空，则表示事务属于最外层事务，结束，将事务区间内的所有消息写入一个新的MessageTree，然后发送到本机的发送队列(netty从该队列异步获取数据发送)； 如果堆栈不为空，则表示该事务属于线程之前事务的一个子事务，则将事务压入堆栈，同时存储该事务到当前MessageTree(MessageTree中的Message对象可以增加无限的子Message)。</li>
+</ol>
+<h3 id="2-2-Event"><a href="#2-2-Event" class="headerlink" title="2.2 Event"></a>2.2 Event</h3><h3 id="2-3-HeartBeat"><a href="#2-3-HeartBeat" class="headerlink" title="2.3 HeartBeat"></a>2.3 HeartBeat</h3><p><code>Event</code>与<code>HeartBeat</code>的逻辑类似，只是各自承载的消息对象不同。他们与<code>Transaction</code>的区别在于前2者是不可嵌套的，所以不使用堆栈，在执行了complete()之后就获取MessageTree对象发送到带网络传输队列。</p>
+<h3 id="2-5-TCP-Sender"><a href="#2-5-TCP-Sender" class="headerlink" title="2.5 TCP Sender"></a>2.5 TCP Sender</h3><p>所有消息在各自线程中的流向都是本地的MessageQueue, 其中有两条Queue<br>一条是<code>MessageQueue m_atomicTrees</code>原子消息队列,一条是<code>MessageQueue m_queue</code>发送队列。  其优化逻辑是:在将MessageTree加入发送队列<code>m_queue</code>之前，先判断是否是原子消息，如果是则加入<code>m_atomicTrees</code>，<code>m_atomicTrees</code>由一个独立的线程处理，如果队列中数量达到一定或者时间达到指定区间，则进行消息合并，以一定大小合并成多条Transaction对象，然后在加入待发送队列<code>m_queue</code>   </p>
+<p>同样发送队列<code>m_queue</code>也是一个独立的线程处理，不断从队列中获取MessageTree,然后通过<code>PlainTextMessageCodec</code>序列化之后，通过netty发送到服务端。</p>
+<p>至此，业务方的消息从收集到发送完成。<br>统计展示则需要通过服务端的分析处理后方可查看</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/10/cat-getstarted/" itemprop="url">
+                  cat快速入门
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T10:25:23+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/10/cat-getstarted/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/cat-getstarted/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
+<p>快速使用方法:</p>
+<h2 id="1-dependency"><a href="#1-dependency" class="headerlink" title="1. dependency"></a>1. dependency</h2><pre><code>&lt;dependency&gt;
+       &lt;groupId&gt;com.dianping.cat&lt;/groupId&gt;
+   &lt;artifactId&gt;cat-client&lt;/artifactId&gt;
+   &lt;version&gt;1.3.7&lt;/version&gt;    
+&lt;/dependency&gt;   
+</code></pre><h2 id="2-业务名称"><a href="#2-业务名称" class="headerlink" title="2. 业务名称"></a>2. 业务名称</h2><p>在<code>main/resources/</code>下新建<code>META-INF</code>目录<br>在目录中新建文件 app.properties<br>里面写入: <code>app.name=businessName</code>  （这里写自己的业务名称）   </p>
+<h2 id="3-埋点"><a href="#3-埋点" class="headerlink" title="3. 埋点"></a>3. 埋点</h2><p>CAT客户端可以向服务端发送Transaction, Event, Heartbeat三种消息</p>
+<h3 id="3-1-Transction"><a href="#3-1-Transction" class="headerlink" title="3.1 Transction"></a>3.1 Transction</h3><ul>
+<li>transaction适合记录跨越系统边界的程序访问行为，比如远程调用，数据库调用，也适合执行时间较长的业务逻辑监控</li>
+<li>某些运行期单元要花费一定时间完成工作, 内部需要其他处理逻辑协助, 我们定义为Transaction.</li>
+<li>Transaction可以嵌套(如http请求过程中嵌套了sql处理).</li>
+<li>大部分的Transaction可能会失败, 因此需要一个结果状态码.</li>
+<li>如果Transaction开始和结束之间没有其他消息产生, 那它就是Atomic Transaction(合并了起始标记).</li>
+</ul>
+<p>代码示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">        Transaction t = Cat.newTransaction(<span class="string">"Call"</span>, <span class="string">"test"</span>);  <span class="comment">//type 和name 都可以自定义</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">///业务逻辑</span></div><div class="line">            t.addData(<span class="string">"xxx"</span>); <span class="comment">//可选项  附带数据，仅做展示用</span></div><div class="line">            t.setStatus(Transaction.SUCCESS);  <span class="comment">//status除了Transaction.SUCCESS，其他任何字符都表示error</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            t.setStatus(<span class="string">"error"</span>);</div><div class="line">            Cat.logError(e);  <span class="comment">//记录完整错误信息</span></div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            t.complete(); <span class="comment">//该行一定要执行，所以一般使用try catch ，在finally中执行</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="3-2-Event"><a href="#3-2-Event" class="headerlink" title="3.2 Event"></a>3.2 Event</h3><h3 id="3-3-Heartbeat"><a href="#3-3-Heartbeat" class="headerlink" title="3.3 Heartbeat"></a>3.3 Heartbeat</h3><p>心跳属于自动抓取，不需要业务代码埋点。 在展示的网页中点击<code>HeartBeat</code>即可查看。每台机器每个应用程序1分钟1次的数据</p>
+<h2 id="4-查看"><a href="#4-查看" class="headerlink" title="4. 查看"></a>4. 查看</h2><p>埋点完成之后，运行系统，消息数据将实时传输到服务器进行解析、分析和展示。<br>在网页上(<a href="http://10.2.1.3:5888" target="_blank" rel="external">http://10.2.1.3:5888</a>) 可以看到统计信息.</p>
+<ul>
+<li>找到业务名，就是在app.properties中声明的app.name</li>
+<li>查看transaction和event等信息。页面显示的是埋点中<code>type</code>的统计信息，点击某一个<code>type</code>，可以看到对应的各个<code>name</code>的统计信息。</li>
+<li>problem中可以查看错误信息，点击后面`looooog``链接，可以查看所有的错误信息。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/10/cat/" itemprop="url">
+                  cat
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T10:25:04+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/10/cat/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/cat/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>CAT是大众点评开发的Java平台的实时应用监控平台。<br>快速接入，实时查看。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/29/load-balancing/" itemprop="url">
+                  针对延迟的负载均衡
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-29T11:23:42+08:00" content="2016-08-29">
+              2016-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/29/load-balancing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/29/load-balancing/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原文地址:<a href="https://blog.buoyant.io/2016/03/16/beyond-round-robin-load-balancing-for-latency/" target="_blank" rel="external">Beyond Round Robin: Load Balancing for Latency</a></p>
+
+          
         
       
     </div>
@@ -804,7 +797,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -845,7 +838,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -855,7 +848,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

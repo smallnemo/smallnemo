@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="linkerd,RPC," />
+  <meta name="keywords" content="dianping,cat,监控," />
 
 
 
@@ -84,45 +84,28 @@
 
 
 
-<meta name="description" content="1. Intro原文链接:https://linkerd.io/doc/introduction/ 
-linkerd是一个专门为微服务设计的RPC代理， 它帮助服务实现：
-
-safe 安全
-reliable 可靠
-performance 高性能
-load balancing 负载均衡
-connection pooling 连接池
-session management 会话管理
-instrumen">
+<meta name="description" content="cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。
+快速使用方法:
+1. dependency&amp;lt;dependency&amp;gt;
+       &amp;lt;groupId&amp;gt;com.dianping.cat&amp;lt;/groupId&amp;gt;
+   &amp;lt;artifactId&amp;gt;cat-client&amp;lt;/artifactId&amp;gt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linkerd简介(1):Introduction">
-<meta property="og:url" content="http://yoursite.com/2016/08/16/linkerd/index.html">
+<meta property="og:title" content="cat快速入门">
+<meta property="og:url" content="http://yoursite.com/2016/10/10/cat-getstarted/index.html">
 <meta property="og:site_name" content="Talisman">
-<meta property="og:description" content="1. Intro原文链接:https://linkerd.io/doc/introduction/ 
-linkerd是一个专门为微服务设计的RPC代理， 它帮助服务实现：
-
-safe 安全
-reliable 可靠
-performance 高性能
-load balancing 负载均衡
-connection pooling 连接池
-session management 会话管理
-instrumen">
-<meta property="og:image" content="https://linkerd.io/images/diagram-individual-instance.png">
-<meta property="og:updated_time" content="2016-08-17T12:53:39.000Z">
+<meta property="og:description" content="cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。
+快速使用方法:
+1. dependency&amp;lt;dependency&amp;gt;
+       &amp;lt;groupId&amp;gt;com.dianping.cat&amp;lt;/groupId&amp;gt;
+   &amp;lt;artifactId&amp;gt;cat-client&amp;lt;/artifactId&amp;gt;">
+<meta property="og:updated_time" content="2016-10-13T01:35:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linkerd简介(1):Introduction">
-<meta name="twitter:description" content="1. Intro原文链接:https://linkerd.io/doc/introduction/ 
-linkerd是一个专门为微服务设计的RPC代理， 它帮助服务实现：
-
-safe 安全
-reliable 可靠
-performance 高性能
-load balancing 负载均衡
-connection pooling 连接池
-session management 会话管理
-instrumen">
-<meta name="twitter:image" content="https://linkerd.io/images/diagram-individual-instance.png">
+<meta name="twitter:title" content="cat快速入门">
+<meta name="twitter:description" content="cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。
+快速使用方法:
+1. dependency&amp;lt;dependency&amp;gt;
+       &amp;lt;groupId&amp;gt;com.dianping.cat&amp;lt;/groupId&amp;gt;
+   &amp;lt;artifactId&amp;gt;cat-client&amp;lt;/artifactId&amp;gt;">
 
 
 
@@ -143,9 +126,9 @@ instrumen">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/16/linkerd/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/10/10/cat-getstarted/"/>
 
-  <title> linkerd简介(1):Introduction | Talisman </title>
+  <title> cat快速入门 | Talisman </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -285,7 +268,7 @@ instrumen">
             
             
               
-                linkerd简介(1):Introduction
+                cat快速入门
               
             
           </h1>
@@ -297,8 +280,8 @@ instrumen">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-16T14:47:22+08:00" content="2016-08-16">
-              2016-08-16
+            <time itemprop="dateCreated" datetime="2016-10-10T10:25:23+08:00" content="2016-10-10">
+              2016-10-10
             </time>
           </span>
 
@@ -308,8 +291,8 @@ instrumen">
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/16/linkerd/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/16/linkerd/" itemprop="commentsCount"></span>
+                <a href="/2016/10/10/cat-getstarted/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/cat-getstarted/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -332,36 +315,31 @@ instrumen">
       
 
       
-        <h2 id="1-Intro"><a href="#1-Intro" class="headerlink" title="1. Intro"></a>1. Intro</h2><p>原文链接:<a href="https://linkerd.io/doc/introduction/" target="_blank" rel="external">https://linkerd.io/doc/introduction/</a> </p>
-<p>linkerd是一个专门为微服务设计的RPC代理， 它帮助服务实现：</p>
+        <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
+<p>快速使用方法:</p>
+<h2 id="1-dependency"><a href="#1-dependency" class="headerlink" title="1. dependency"></a>1. dependency</h2><pre><code>&lt;dependency&gt;
+       &lt;groupId&gt;com.dianping.cat&lt;/groupId&gt;
+   &lt;artifactId&gt;cat-client&lt;/artifactId&gt;
+   &lt;version&gt;1.3.7&lt;/version&gt;    
+&lt;/dependency&gt;   
+</code></pre><h2 id="2-业务名称"><a href="#2-业务名称" class="headerlink" title="2. 业务名称"></a>2. 业务名称</h2><p>在<code>main/resources/</code>下新建<code>META-INF</code>目录<br>在目录中新建文件 app.properties<br>里面写入: <code>app.name=businessName</code>  （这里写自己的业务名称）   </p>
+<h2 id="3-埋点"><a href="#3-埋点" class="headerlink" title="3. 埋点"></a>3. 埋点</h2><p>CAT客户端可以向服务端发送Transaction, Event, Heartbeat三种消息</p>
+<h3 id="3-1-Transction"><a href="#3-1-Transction" class="headerlink" title="3.1 Transction"></a>3.1 Transction</h3><ul>
+<li>transaction适合记录跨越系统边界的程序访问行为，比如远程调用，数据库调用，也适合执行时间较长的业务逻辑监控</li>
+<li>某些运行期单元要花费一定时间完成工作, 内部需要其他处理逻辑协助, 我们定义为Transaction.</li>
+<li>Transaction可以嵌套(如http请求过程中嵌套了sql处理).</li>
+<li>大部分的Transaction可能会失败, 因此需要一个结果状态码.</li>
+<li>如果Transaction开始和结束之间没有其他消息产生, 那它就是Atomic Transaction(合并了起始标记).</li>
+</ul>
+<p>代码示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">        Transaction t = Cat.newTransaction(<span class="string">"Call"</span>, <span class="string">"test"</span>);  <span class="comment">//type 和name 都可以自定义</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">///业务逻辑</span></div><div class="line">            t.addData(<span class="string">"xxx"</span>); <span class="comment">//可选项  附带数据，仅做展示用</span></div><div class="line">            t.setStatus(Transaction.SUCCESS);  <span class="comment">//status除了Transaction.SUCCESS，其他任何字符都表示error</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            t.setStatus(<span class="string">"error"</span>);</div><div class="line">            Cat.logError(e);  <span class="comment">//记录完整错误信息</span></div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            t.complete(); <span class="comment">//该行一定要执行，所以一般使用try catch ，在finally中执行</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="3-2-Event"><a href="#3-2-Event" class="headerlink" title="3.2 Event"></a>3.2 Event</h3><h3 id="3-3-Heartbeat"><a href="#3-3-Heartbeat" class="headerlink" title="3.3 Heartbeat"></a>3.3 Heartbeat</h3><p>心跳属于自动抓取，不需要业务代码埋点。 在展示的网页中点击<code>HeartBeat</code>即可查看。每台机器每个应用程序1分钟1次的数据</p>
+<h2 id="4-查看"><a href="#4-查看" class="headerlink" title="4. 查看"></a>4. 查看</h2><p>埋点完成之后，运行系统，消息数据将实时传输到服务器进行解析、分析和展示。<br>在网页上(<a href="http://10.2.1.3:5888" target="_blank" rel="external">http://10.2.1.3:5888</a>) 可以看到统计信息.</p>
 <ul>
-<li>safe 安全</li>
-<li>reliable 可靠</li>
-<li>performance 高性能</li>
-<li>load balancing 负载均衡</li>
-<li>connection pooling 连接池</li>
-<li>session management 会话管理</li>
-<li>instrumentation 仪表盘数据</li>
-<li>routing 路由</li>
+<li>找到业务名，就是在app.properties中声明的app.name</li>
+<li>查看transaction和event等信息。页面显示的是埋点中<code>type</code>的统计信息，点击某一个<code>type</code>，可以看到对应的各个<code>name</code>的统计信息。</li>
+<li>problem中可以查看错误信息，点击后面`looooog``链接，可以查看所有的错误信息。</li>
 </ul>
-<p>linkerd用来解决类似于Yahoo、Twitter、Google和MicroSoft等公司的大型业务系统问题。在我们的经验中，最复杂的问题并不是服务本身，而是服务之间的通信。linkerd就是用来解决这些问题的：不仅控制通信机制，而且在上层提供一层抽象。</p>
-<center><img src="https://linkerd.io/images/diagram-individual-instance.png" alt=""><br><font size="+1">linkerd作为应用程序的一个RPC代理 </font></center>
-
-<p>通过从应用程序代码中解耦RPC的机制，linkerd允许在不修改业务代码的基础上改变RPC机制。如：linkerd通过升级路径来实现服务发现， 以简单的静态主机列表，达到zookeeper或者consul等的全面解决方案。</p>
-<p>通过提供一套持续通用的仪表展示和服务控制，独立的服务程序语言， linkerd让用户选择任何适合他们服务的语言。</p>
-<p>linkerd搭建在twitter的大规模RPC库Finagle基础之上。在Twitter还是其他公司，Fingale能够很好的完成复杂应用和高流量的各种业务调用。通过使用Finagle，linkerd可以利用经过千万级RPC调用流量测试验证过的代码、算法和方法。</p>
-<h3 id="1-1-linkerd’s-feature"><a href="#1-1-linkerd’s-feature" class="headerlink" title="1.1 linkerd’s feature"></a>1.1 linkerd’s feature</h3><ul>
-<li>Intelligent, adaptive load-balancing. 智能的、自适应的负载均衡。 因为操作在RPC层，linkerd可以根据<code>RPC调用延迟</code>和<code>队列长度</code>来进行负载均衡，这比诸如LRU或者TCP活跃性的启发式机制更好。 通过linkerd可以优化流量分布和减少长尾延迟。</li>
-<li>Global, fine-grained instrumentation. 全局的、细维度的仪表数据展示。linkerd提供通信延迟、负载量的详细矩阵图数据，也包括成功率和负载均衡的统计，以人识别的展示方式和机器识别的展示方式。使用linkerd，即使是多种语言的应用，也可以在集中一个地方查看到一个连续的、全局的性能数据。</li>
-<li>Application-centric naming 以应用为中心命名</li>
-<li>Powerful traffic routing mechanisms.路由机制。 linkerd的路由层解耦了应用的流量服务拓扑和部署拓扑。 这意味着：灰度部署、ABTest部署、暗流量等，可以在流量控制中快速、控制范围、可回滚的实现，而不是代码部署。</li>
-</ul>
-<h3 id="1-2-linkerd使用"><a href="#1-2-linkerd使用" class="headerlink" title="1.2 linkerd使用"></a>1.2 linkerd使用</h3><p>linked作为一个分离的独立的代理运行，与语言和需要的库无关。相比于与目的服务应用直接通信，本地的linkerd实例可以看成是远程的目的服务实例，应用程序只用连接到本地的linkerd实例。在这里，linkerd接受路由规则、与存在的服务发现设施通信、目的实例的负载均衡、所有的通信和报告指标。</p>
-<p>linkerd实例有两种部署方式：</p>
-<pre><code>1. sidecars  一个应用服务实例对应一个linkerd实例
-2. per-host    一个目的host一个linkerd实例
-</code></pre><p>linkerd实例是无状态和独立的，可以快速加入已存在的部署拓扑中。</p>
-<p>linkerd支持多种通用的RPC格式。如：<font color="red"><code>HTTP、mux、thrift</code></font></p>
 
       
     </div>
@@ -405,9 +383,11 @@ instrumen">
       
         <div class="post-tags">
           
-            <a href="/tags/linkerd/" rel="tag">#linkerd</a>
+            <a href="/tags/dianping/" rel="tag">#dianping</a>
           
-            <a href="/tags/RPC/" rel="tag">#RPC</a>
+            <a href="/tags/cat/" rel="tag">#cat</a>
+          
+            <a href="/tags/监控/" rel="tag">#监控</a>
           
         </div>
       
@@ -416,16 +396,16 @@ instrumen">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/15/personalized-rec-system/" rel="next" title="个性化推荐系统简介">
-                <i class="fa fa-chevron-left"></i> 个性化推荐系统简介
+              <a href="/2016/10/10/cat/" rel="next" title="cat">
+                <i class="fa fa-chevron-left"></i> cat
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/17/GitHub-Hexo-Godaddy/" rel="prev" title="GitHub+Hexo+Godaddy快速搭建个人博客">
-                GitHub+Hexo+Godaddy快速搭建个人博客 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/10/cat-client/" rel="prev" title="cat-client源码分析">
+                cat-client源码分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -441,10 +421,10 @@ instrumen">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/08/16/linkerd/"
-     data-title="linkerd简介(1):Introduction"
+        <div class="ds-share flat" data-thread-key="2016/10/10/cat-getstarted/"
+     data-title="cat快速入门"
      data-content=""
-     data-url="http://yoursite.com/2016/08/16/linkerd/">
+     data-url="http://yoursite.com/2016/10/10/cat-getstarted/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -471,8 +451,8 @@ instrumen">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/08/16/linkerd/"
-           data-title="linkerd简介(1):Introduction" data-url="http://yoursite.com/2016/08/16/linkerd/">
+      <div class="ds-thread" data-thread-key="2016/10/10/cat-getstarted/"
+           data-title="cat快速入门" data-url="http://yoursite.com/2016/10/10/cat-getstarted/">
       </div>
     
   </div>
@@ -576,7 +556,7 @@ instrumen">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Intro"><span class="nav-text">1. Intro</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-linkerd’s-feature"><span class="nav-text">1.1 linkerd’s feature</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-linkerd使用"><span class="nav-text">1.2 linkerd使用</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-dependency"><span class="nav-text">1. dependency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-业务名称"><span class="nav-text">2. 业务名称</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-埋点"><span class="nav-text">3. 埋点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Transction"><span class="nav-text">3.1 Transction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Event"><span class="nav-text">3.2 Event</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Heartbeat"><span class="nav-text">3.3 Heartbeat</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-查看"><span class="nav-text">4. 查看</span></a></li></ol></div>
             
           </div>
         </section>
