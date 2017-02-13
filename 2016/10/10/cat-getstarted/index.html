@@ -98,7 +98,7 @@
 1. dependency&amp;lt;dependency&amp;gt;
        &amp;lt;groupId&amp;gt;com.dianping.cat&amp;lt;/groupId&amp;gt;
    &amp;lt;artifactId&amp;gt;cat-client&amp;lt;/artifactId&amp;gt;">
-<meta property="og:updated_time" content="2016-10-14T09:44:56.000Z">
+<meta property="og:updated_time" content="2017-02-13T09:01:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cat快速入门">
 <meta name="twitter:description" content="cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。
@@ -331,6 +331,7 @@
 <li>大部分的Transaction可能会失败, 因此需要一个结果状态码.</li>
 <li>如果Transaction开始和结束之间没有其他消息产生, 那它就是Atomic Transaction(合并了起始标记).</li>
 </ul>
+<a id="more"></a>
 <p>代码示例:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">        Transaction t = Cat.newTransaction(<span class="string">"Call"</span>, <span class="string">"test"</span>);  <span class="comment">//type 和name 都可以自定义</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">///业务逻辑</span></div><div class="line">            t.addData(<span class="string">"xxx"</span>); <span class="comment">//可选项  附带数据，仅做展示用</span></div><div class="line">            t.setStatus(Transaction.SUCCESS);  <span class="comment">//status除了Transaction.SUCCESS，其他任何字符都表示error</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            t.setStatus(<span class="string">"error"</span>);</div><div class="line">            Cat.logError(e);  <span class="comment">//记录完整错误信息</span></div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            t.complete(); <span class="comment">//该行一定要执行，所以一般使用try catch ，在finally中执行</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <h3 id="3-2-Event"><a href="#3-2-Event" class="headerlink" title="3.2 Event"></a>3.2 Event</h3><h3 id="3-3-Heartbeat"><a href="#3-3-Heartbeat" class="headerlink" title="3.3 Heartbeat"></a>3.3 Heartbeat</h3><p>心跳属于自动抓取，不需要业务代码埋点。 在展示的网页中点击<code>HeartBeat</code>即可查看。每台机器每个应用程序1分钟1次的数据</p>

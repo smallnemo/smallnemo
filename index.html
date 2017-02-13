@@ -308,36 +308,18 @@
 
       
         
-          
-            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在项目中遇到一个需求，计算一个证件还有多少天到期，在还有30天到期的时候给一个提醒。看起来很简单，就是求给定的时间和当前时间的一个差值。</p>
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在项目中遇到一个需求，计算一个证件还有多少天到期，在还有30天到期的时候给一个提醒。看起来很简单，就是求给定的时间和当前时间的一个差值。</p>
 <p>题目可以理解为：<br>给定一个日期(Date)，计算与当前时间相差的天数。</p>
 <h1 id="第一次"><a href="#第一次" class="headerlink" title="第一次"></a>第一次</h1><p>这个很简单嘛，先找找JAVA有木有对应的API，Date只有before，after方法，返回boolean值，不可取，再查查看Calendar也没有对应的方法。</p>
 <p>好嘛，没有我就自己写，几行代码的事情。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public int intervalDays(Date date) &#123;</div><div class="line">    if (date == null) &#123;</div><div class="line">        return 0;  //这儿忽略，根据业务场景定义返回值</div><div class="line">    &#125;</div><div class="line">    long oneDayMillis = 24 * 60 * 60 * 1000;  //一天的毫秒数</div><div class="line">    return (int) ((System.currentTimeMillis() - date.getTime()) / oneDayMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>其实一行代码就可以搞定，简单嘛。   </p>
 <p>接下来发现不对了，计算的是天数差距，如果当前是<code>12点</code>，给定日期是<code>昨天的15点</code>，上面代码计算出来的时间不足1天，返回的该是<code>0</code>。 而我们理解及业务要求中，这种情况应该返回<code>1</code>的。</p>
-<h1 id="第二次"><a href="#第二次" class="headerlink" title="第二次"></a>第二次</h1><p>好嘛，要这样搞，我又用天数来相减嘛。</p>
-<pre><code>当前时间的天数 减去给定时间的天数
-</code></pre><p>代码更新如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public int intervalDays(Date date) &#123;</div><div class="line">    if (date == null) &#123;</div><div class="line">        return 0;  //这儿忽略，根据业务场景定义返回值</div><div class="line">    &#125;</div><div class="line">    long oneDayMillis = 24 * 60 * 60 * 1000;  //一天的毫秒数</div><div class="line">//    return (int) ((System.currentTimeMillis() - date.getTime()) / oneDayMillis);</div><div class="line">    //总天数如果算上当天 两个天数都要+1， 在这里计算间隔，就都不算当天</div><div class="line">    return (int) (System.currentTimeMillis() / oneDayMillis - date.getTime() / oneDayMillis); </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>这下肯定没问题了，我用天数相减，万无一失。</p>
-<p>可是现实是很残酷的。<br>比如我现在的时间是 <code>2017-02-13 07:00:00</code><br>给定的日期是 <code>2017-02-12 19:00:00</code><br>一眼看出来，相差是一天，因为只看天数是有差距的。</p>
-<p>代码运算出来的时间却是 <code>0</code>。<br>赤裸裸的打脸呀…</p>
-<h1 id="终章"><a href="#终章" class="headerlink" title="终章"></a>终章</h1><p>马上想到一个问题，System.currentTimeMillis()取的是UTC的时间，我们用的是CST时间，求差值没问题，但是我们在求差值之前取了整数呀。    </p>
-<p>于是乎找了一个时间来验证</p>
-<pre><code>$ date -r 1486915200   根据秒数查看日期
-Mon Feb 13 00:00:00 CST 2017
-</code></pre><p>于是乎:</p>
-<pre><code>&gt;&gt;&gt; 1486915200.0 / (24 * 60 * 60)
-17209.666666666668  查看天数，返回的居然不是整数，居然是这种小数，晕了。
-</code></pre><p>仔细一看，小数好像是<code>2/3</code>，还差 <code>1/3</code>为整数，正好8小时(东八区)是一天的 <code>1/3</code>。</p>
-<p>于是乎，在东八区，所有时间计算天数需要在UTC时间上加上 8小时算出来的天数才是准确的。</p>
-<p>于是又自己造轮子:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public int intervalDays(Date date) &#123;</div><div class="line">    if (date == null) &#123;</div><div class="line">        return 0;  //这儿忽略，根据业务场景定义返回值</div><div class="line">    &#125;</div><div class="line">    long oneDayMillis = 24 * 60 * 60 * 1000;  //一天的毫秒数</div><div class="line">//    return (int) ((System.currentTimeMillis() - date.getTime()) / oneDayMillis);</div><div class="line">    //总天数如果算上当天 两个天数都要+1， 在这里计算间隔，就都不算当天</div><div class="line">//    return (int) (System.currentTimeMillis() / oneDayMillis - date.getTime() / oneDayMillis);</div><div class="line">        </div><div class="line">    long addMillis = 8 * 60 * 60 * 1000;</div><div class="line">    return (int) ((System.currentTimeMillis() + addMillis) / oneDayMillis </div><div class="line">            - (date.getTime() + addMillis) / oneDayMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>再次验证，这次好像可以了吧。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在JAVA中，所有时间相关的计算，都要随时想到时区这个东西，一不小心就会发现，这是一个很容易掉下去的坑。</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/02/13/date-interval/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -435,8 +417,7 @@ Mon Feb 13 00:00:00 CST 2017
 
       
         
-          
-            <h1 id="OkHttp简介"><a href="#OkHttp简介" class="headerlink" title="OkHttp简介"></a>OkHttp简介</h1><p>Github:<a href="https://github.com/square/okhttp" target="_blank" rel="external">https://github.com/square/okhttp</a></p>
+          <h1 id="OkHttp简介"><a href="#OkHttp简介" class="headerlink" title="OkHttp简介"></a>OkHttp简介</h1><p>Github:<a href="https://github.com/square/okhttp">https://github.com/square/okhttp</a></p>
 <p>OkHttp是square开源的一款高效Http请求组件。在Google Android4.4及以上系统，已经使用OkHttp替换掉了原有的HttpURLConnection。</p>
 <p>主要有以下特点:</p>
 <ol>
@@ -448,213 +429,11 @@ Mon Feb 13 00:00:00 CST 2017
 <li>拥有基于Header的缓存策略</li>
 </ol>
 <h1 id="支持范围"><a href="#支持范围" class="headerlink" title="支持范围"></a>支持范围</h1><p>Android 2.3+<br>Java jdk1.7+</p>
-<h1 id="HCB-OkHttp组件"><a href="#HCB-OkHttp组件" class="headerlink" title="HCB OkHttp组件"></a>HCB OkHttp组件</h1><p>基于OkHttp做了封装，方便业务方使用。</p>
-<p>在OkHttp功能基础上，针对业务及以往使用HTTP的要求，增加功能:</p>
-<ol>
-<li>签名、编码配置化</li>
-<li>一个目的业务服务一个client，互相不干扰</li>
-<li>结果反序列化</li>
-<li>请求构造多样化，API接口丰富</li>
-<li>调用简单化(方法仅有call， asyncCall; 参数仅有TARequest或者兼容以前的url)</li>
-<li>线程池复用(支持线程池空闲连接回收、已有连接健康监测)</li>
-<li>性能优化</li>
-</ol>
-<p>主要组件:</p>
-<pre><code>TAClient
-TARequest
-Serializer
-</code></pre><h2 id="TAClient"><a href="#TAClient" class="headerlink" title="TAClient"></a>TAClient</h2><p>http请求client，封装了具体的http连接客户端httpclient，主要配置参数是一些业务上的配置。主要包括以下参数：</p>
-<pre><code>private HttpClient httpClient;
-
-//service url   //用来表示请求的目的服务
-private String serviceUrl;
-
-// TARequest 序列化 &amp;&amp; Response反序列化
-private Serializer serializer;
-
-//appId
-private String appId;
-
-//签名密钥 私钥签名
-private String sign;
-
-//加密密钥 公钥加密
-private String enc;
-
-// 签名算法 RSA / MD5
-private CipherType signType;
-
-//加密算法 RSA / MD5
-private CipherType encType;
-</code></pre><p>请求的每一个服务端可以配置一个TAClient，多线程复用。</p>
-<p>在里面封装了HTTPClient对象，主要针对底层连接做一些配置，包括：</p>
-<pre><code>//socket连接超时时间
-private long connectTimeout;
-
-//Default read timeout（ms）
-private long readTimeout;
-
-//Default write timeout (ms)
-private long writeTimeout;
-
-private List&lt;Interceptor&gt; interceptorList;
-
-// 线程池最大空闲连接数 默认100
-private int maxIdleConnections;
-//空闲保持时间:分钟 默认 5分钟
-private int keepAliveMinutes;
-
-//异步操作最大QPS
-private int asyncMaxRequests;
-
-//异步操作同一个目的Host:Port的最大并行数
-private int asyncMaxRequestsPerHost;
-</code></pre><p>这些配置会生成一个可重用的无业务的Http连接客户端。所有的TAClient都可以引用同一个HttpClient.</p>
-<p>TAClient和HtppClient对象都使用Builder Set模式，可以使用</p>
-<pre><code>xx.set(xxx)
-    .set(xxx)
-    .set(xxx)
-</code></pre><h2 id="TARequest"><a href="#TARequest" class="headerlink" title="TARequest"></a>TARequest</h2><p>TARequest主要用于业务方每次生成自己的请求，最后作为HTTP调用的请求参数。</p>
-<p>TAReqeust主要包括以下参数:</p>
-<pre><code>//自定义url（一般不使用）
-private String url;
-
-//路径补充
-private String path;
-
-//是否编码
-private boolean isSign;
-// 是否加密
-private boolean isEnc;
-
-//request header 对应的keyList， valueList
-private final List&lt;String&gt; headerKey;
-private final List&lt;String&gt; headerValue;
-
-//request body对应的key，value
-/**
- * POST / GET
- */
-private String method;
-private final List&lt;String&gt; postBodyKey;
-private final List&lt;String&gt; postBodyValue;
-
-// request param 对应的keyList， valueList
-private final List&lt;String&gt; paramKey;
-private final List&lt;String&gt; paramValue;
-</code></pre><p>根据URL的组成，分为几部分：</p>
-<ol>
-<li>Header (keyList, valueList按位置一一对应)</li>
-<li>Path (可添加path，不能修改serverUrl中配置url中的path，只能在后面添加)</li>
-<li>QueryParam (url “?”后面的kv部分)</li>
-<li>Method (Get 或者 POST， 默认GET)</li>
-<li>PostBody （POST方法上传的KV数据，目前根据业务情况支持KV）</li>
-<li>isEnc (如果为false，则确定不加密。其他情况根据TAClient是否配置秘钥来确定)</li>
-<li>isSign (该次请求是否签名，如果false，确定不签名。否则根据TAClient是否配置签名私钥来确定)</li>
-</ol>
-<h2 id="Serializer"><a href="#Serializer" class="headerlink" title="Serializer"></a>Serializer</h2><p>在TAClient中我们有一个Serializer filed。主要作用是请求的序列化以及返回结果的反序列化，序列化使用统一格式，兼容公司现有http server。 结果反序列化默认使用fastjson进行序列化。一般线上返回结果都有Result<t>对象的JSON序列化字符串。</t></p>
-<p>因此，如果在客户端要直接使用序列化后的结果，请使用</p>
-<pre><code>taClient.call(taRequest, new TypeReference&lt;Result&lt;T&gt;&gt;(){})
-</code></pre><p>如果返回结果不是容器泛型类对象，则可以使用</p>
-<pre><code>taClient.call(taRequest, Class&lt;T&gt; clazz)
-</code></pre><h1 id="性能对比测试"><a href="#性能对比测试" class="headerlink" title="性能对比测试"></a>性能对比测试</h1><p>我们主要和已有的组件进行对比。</p>
-<table>
-<thead>
-<tr>
-<th>对比组件</th>
-<th>hcb-okhttp</th>
-<th>codec-http-client</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>底层实现</td>
-<td>httpclient-4.5</td>
-<td>okhttp-3.4.1</td>
-</tr>
-</tbody>
-</table>
-<h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p>在本机创建一个HTTP Server，里面包括一个验证签名的filter<br>在servlet中代码实现如下:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">//计算所有参数的和，包括queryparam和requestbody content</div><div class="line">Map&lt;String,String[]&gt; params = req.getParameterMap();</div><div class="line">        int sum = 0;</div><div class="line">        for (String [] values: params.values()) &#123;</div><div class="line">            if (values != null &amp;&amp; values.length &gt; 0) &#123;</div><div class="line">                try &#123;</div><div class="line">                    int value = Integer.parseInt(values[0]);</div><div class="line">                    sum += value;</div><div class="line">                &#125; catch (NumberFormatException nfe) &#123;</div><div class="line"></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        resp.getWriter().println(sum);</div><div class="line">        </div><div class="line">        //增加响应时间，使服务端响应时间更平稳</div><div class="line">        long s = 0;</div><div class="line">        for (int i =1; i&lt; 10000; i++) &#123;</div><div class="line">            s += i;</div><div class="line">        &#125;</div><div class="line">        double sqrt = Math.sqrt(s* s *s);</div><div class="line">        </div><div class="line">```	</div><div class="line"></div><div class="line">## 实验结果</div><div class="line"></div><div class="line">在客户端使用`3`个线程进行访问，输入参数如下:</div><div class="line"></div><div class="line">```java</div><div class="line">Map&lt;String,String&gt; params = new HashMap&lt;String, String&gt;();</div><div class="line">params.put("a","1");</div><div class="line">params.put("b","2");</div><div class="line">params.put("c", "123");</div><div class="line">params.put("d", "123");</div><div class="line">params.put("e", "123");</div><div class="line">params.put("f", "123");</div></pre></td></tr></table></figure>
-<p>对比结果如下:</p>
-<table>
-<thead>
-<tr>
-<th>condition</th>
-<th>请求次数</th>
-<th>codec-http-client响总应时间(ms)</th>
-<th>平均响应时间(ms)</th>
-<th>hcb-okhttp总响应时间(ms)</th>
-<th>平均响应时间(ms)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GET不签名</td>
-<td>1000_000</td>
-<td>80336</td>
-<td>0.080336</td>
-<td>52563</td>
-<td>0.052563</td>
-</tr>
-<tr>
-<td>GET签名</td>
-<td>300_000</td>
-<td>29022</td>
-<td>0.09674</td>
-<td>23648</td>
-<td>0.078827</td>
-</tr>
-<tr>
-<td>POST不签名</td>
-<td>1000_000</td>
-<td>71709</td>
-<td>0.07171</td>
-<td>59762</td>
-<td>0.05976</td>
-</tr>
-<tr>
-<td>POST签名</td>
-<td>300_000</td>
-<td>244661</td>
-<td>0.815537</td>
-<td>226051</td>
-<td>0.7535</td>
-</tr>
-</tbody>
-</table>
-<p>从上面的测试结果可以看出，不论是否签名，使用GET还是POST方式，基于OkHttp的hcb-okhttp性能始终优于基于httpclient的codec-http-client。</p>
-<h1 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h1><h2 id="Spring配置"><a href="#Spring配置" class="headerlink" title="Spring配置"></a>Spring配置</h2><p>pom文件中加入:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">	&lt;groupId&gt;com.wlqq.http&lt;/groupId&gt;</div><div class="line">   	&lt;artifactId&gt;hcb-okhttp&lt;/artifactId&gt;</div><div class="line">   	&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</div><div class="line">&lt;/denpendency&gt;</div></pre></td></tr></table></figure>
-<p>Spring配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">业务方需要使用的client</div><div class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"taclient"</span> <span class="attr">class</span>=<span class="string">"com.wlqq.http.TAClient"</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"serviceUrl"</span> <span class="attr">value</span>=<span class="string">"http://10.2.1.3:5888/"</span>/&gt;</span></div><div class="line">       <span class="comment">&lt;!--&lt;property name="appId" value="xxxxxx"/&gt;--&gt;</span></div><div class="line">       <span class="comment">&lt;!--&lt;property name="cipherType" value="RSA"/&gt;--&gt;</span></div><div class="line">       <span class="comment">&lt;!--&lt;property name="sign" value="xxxxxx"/&gt;--&gt;</span></div><div class="line">       <span class="comment">&lt;!--&lt;property name="enc" value="xxxxxx"/&gt;--&gt;</span></div><div class="line">       <span class="comment">&lt;!--property name="httpClient" ref="httpclient"/&gt; --&gt;</span></div><div class="line">       </div><div class="line">       <span class="comment">&lt;!--&lt;property name="serializer"&gt;--&gt;</span></div><div class="line">           <span class="comment">&lt;!--&lt;bean id="json" class="com.wlqq.http.serializer.JsonSerializer"/&gt;--&gt;</span></div><div class="line">       <span class="comment">&lt;!--&lt;/property&gt;--&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>如果需要配置http连接池，超时时间等。需要增加:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"httpclient"</span> <span class="attr">class</span>=<span class="string">"com.wlqq.http.HttpClient"</span>&gt;</span></div><div class="line">	 <span class="comment">&lt;!-- socket连接超时时间: ms，默认10_000ms--&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectTimeout"</span> <span class="attr">value</span>=<span class="string">"10000"</span>/&gt;</span></div><div class="line">       <span class="comment">&lt;!-- readTimeout: ms，默认10_000ms--&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"readTimeout"</span> <span class="attr">value</span>=<span class="string">"10000"</span>/&gt;</span></div><div class="line">       <span class="comment">&lt;!-- writeTimeout: ms，默认10_000ms--&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"writeTimeout"</span> <span class="attr">value</span>=<span class="string">"10000"</span>/&gt;</span></div><div class="line">       <span class="comment">&lt;!-- socket连接保持时间:min分钟，默认为5分钟 --&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"keepAliveDuration"</span> <span class="attr">value</span>=<span class="string">"5"</span>/&gt;</span></div><div class="line">       <span class="comment">&lt;!-- socket连接池最大空闲连接数，默认5个 --&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxIdleConnections"</span> <span class="attr">value</span>=<span class="string">"20"</span>/&gt;</span></div><div class="line">       </div><div class="line">       <span class="comment">&lt;!-- intercaptorList --&gt;</span></div><div class="line">       <span class="comment">&lt;!--&lt;property name="interceptorList"&gt;--&gt;</span></div><div class="line">           <span class="comment">&lt;!--&lt;list&gt;--&gt;</span></div><div class="line">               <span class="comment">&lt;!--&lt;ref bean="basicInterceptor"/&gt;--&gt;</span></div><div class="line">           <span class="comment">&lt;!--&lt;/list&gt;--&gt;</span></div><div class="line">       <span class="comment">&lt;!--&lt;/property&gt;--&gt;</span></div><div class="line">       </div><div class="line">       </div><div class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">   </div><div class="line">   <span class="comment">&lt;!--&lt;bean id="basicInterceptor" class="com.wlqq.http.interceptor.BasicInterceptor"/&gt;--&gt;</span></div></pre></td></tr></table></figure>
-<p>在taClient配置了一个请求服务，包括:</p>
-<ol>
-<li>httpclient 默认的远程请求实现，可以不用配置，使用默认值</li>
-<li>serviceUrl 远程服务的url地址，scheme + host+port+path，如: abc.com/get/user</li>
-<li>cipherType 默认的签名、加密方式：RSA 或者MD5 //可以不写，默认RSA</li>
-<li>appId    请求中用于编码需要的appId  </li>
-<li>sign    签名private key //不写则默认不签名</li>
-<li>enc        加密密钥    不填写则默认不加密</li>
-<li>serializer 结果序列化转换工具，根据不同业务需求转换结果为需要的对象，默认为JsonSerializer, 将response body作为一个json反序列化为需要的Object</li>
-</ol>
-<h2 id="JAVA使用"><a href="#JAVA使用" class="headerlink" title="JAVA使用"></a>JAVA使用</h2><p>在java代码中调用，如果直接请求一个完整url,则直接使用 </p>
-<pre><code>taClient.call(String url)
-</code></pre><p>如果是复杂的request，则先创建TARequest</p>
-<pre><code>TARequest taRequest = new TARequest()
-//request中添加数据
-
-
-String result = taClient.call(taRequest)
-
-//如果序列化非容器泛型
-T result = taClient.call(taRequest, Class&lt;T&gt; clazz)
-//如果序列化容器类泛型
-T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
-</code></pre>
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/23/okhttp-util/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -852,8 +631,7 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
 
       
         
-          
-            <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
+          <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
 <p>快速使用方法:</p>
 <h2 id="1-dependency"><a href="#1-dependency" class="headerlink" title="1. dependency"></a>1. dependency</h2><pre><code>&lt;dependency&gt;
        &lt;groupId&gt;com.dianping.cat&lt;/groupId&gt;
@@ -869,17 +647,11 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
 <li>大部分的Transaction可能会失败, 因此需要一个结果状态码.</li>
 <li>如果Transaction开始和结束之间没有其他消息产生, 那它就是Atomic Transaction(合并了起始标记).</li>
 </ul>
-<p>代码示例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">        Transaction t = Cat.newTransaction(<span class="string">"Call"</span>, <span class="string">"test"</span>);  <span class="comment">//type 和name 都可以自定义</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">///业务逻辑</span></div><div class="line">            t.addData(<span class="string">"xxx"</span>); <span class="comment">//可选项  附带数据，仅做展示用</span></div><div class="line">            t.setStatus(Transaction.SUCCESS);  <span class="comment">//status除了Transaction.SUCCESS，其他任何字符都表示error</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            t.setStatus(<span class="string">"error"</span>);</div><div class="line">            Cat.logError(e);  <span class="comment">//记录完整错误信息</span></div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            t.complete(); <span class="comment">//该行一定要执行，所以一般使用try catch ，在finally中执行</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="3-2-Event"><a href="#3-2-Event" class="headerlink" title="3.2 Event"></a>3.2 Event</h3><h3 id="3-3-Heartbeat"><a href="#3-3-Heartbeat" class="headerlink" title="3.3 Heartbeat"></a>3.3 Heartbeat</h3><p>心跳属于自动抓取，不需要业务代码埋点。 在展示的网页中点击<code>HeartBeat</code>即可查看。每台机器每个应用程序1分钟1次的数据</p>
-<h2 id="4-查看"><a href="#4-查看" class="headerlink" title="4. 查看"></a>4. 查看</h2><p>埋点完成之后，运行系统，消息数据将实时传输到服务器进行解析、分析和展示。<br>在网页上(<a href="http://10.2.1.3:5888" target="_blank" rel="external">http://10.2.1.3:5888</a>) 可以看到统计信息.</p>
-<ul>
-<li>找到业务名，就是在app.properties中声明的app.name</li>
-<li>查看transaction和event等信息。页面显示的是埋点中<code>type</code>的统计信息，点击某一个<code>type</code>，可以看到对应的各个<code>name</code>的统计信息。</li>
-<li>problem中可以查看错误信息，点击后面<code>looooog</code>链接，可以查看所有的错误信息。</li>
-</ul>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/10/10/cat-getstarted/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -977,8 +749,7 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
 
       
         
-          
-            <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
+          <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
 <h2 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h2><p>在程序启动的时候，主要初始化了以下模块:</p>
 <ol>
 <li>TcpSocketSender  用于连接cat服务器，通过netty异步发送消息(MessageTree)</li>
@@ -997,18 +768,12 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
 <li><p>Cat.newTransaction(type, name)<br>生成一个事务实例t，获取存储线程上下文信息，将该实例t加入MessageTree，加入堆栈（主要是为了判断嵌套）</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DefaultMessageProducer.newTransaction()</div><div class="line">	::m_manager.start(transaction, false)</div><div class="line">		::ctx.start(transaction, forked)</div></pre></td></tr></table></figure>
 </li>
-<li><p>执行业务逻辑</p>
-</li>
-<li>加入附加信息，t.addData()  //该项可选</li>
-<li>t.setStatus(true|false) //Message.SUCCESS = “0”表示成功，其他都表示失败</li>
-<li>t.complete() 此项一定要执行，表示事务t的结束。<br> 结束处理逻辑主要是:如果堆栈为空，则表示事务属于最外层事务，结束，将事务区间内的所有消息写入一个新的MessageTree，然后发送到本机的发送队列(netty从该队列异步获取数据发送)； 如果堆栈不为空，则表示该事务属于线程之前事务的一个子事务，则将事务压入堆栈，同时存储该事务到当前MessageTree(MessageTree中的Message对象可以增加无限的子Message)。</li>
 </ol>
-<h3 id="2-2-Event"><a href="#2-2-Event" class="headerlink" title="2.2 Event"></a>2.2 Event</h3><h3 id="2-3-HeartBeat"><a href="#2-3-HeartBeat" class="headerlink" title="2.3 HeartBeat"></a>2.3 HeartBeat</h3><p><code>Event</code>与<code>HeartBeat</code>的逻辑类似，只是各自承载的消息对象不同。他们与<code>Transaction</code>的区别在于前2者是不可嵌套的，所以不使用堆栈，在执行了complete()之后就获取MessageTree对象发送到带网络传输队列。</p>
-<h3 id="2-5-TCP-Sender"><a href="#2-5-TCP-Sender" class="headerlink" title="2.5 TCP Sender"></a>2.5 TCP Sender</h3><p>所有消息在各自线程中的流向都是本地的MessageQueue, 其中有两条Queue<br>一条是<code>MessageQueue m_atomicTrees</code>原子消息队列,一条是<code>MessageQueue m_queue</code>发送队列。  其优化逻辑是:在将MessageTree加入发送队列<code>m_queue</code>之前，先判断是否是原子消息，如果是则加入<code>m_atomicTrees</code>，<code>m_atomicTrees</code>由一个独立的线程处理，如果队列中数量达到一定或者时间达到指定区间，则进行消息合并，以一定大小合并成多条Transaction对象，然后在加入待发送队列<code>m_queue</code>   </p>
-<p>同样发送队列<code>m_queue</code>也是一个独立的线程处理，不断从队列中获取MessageTree,然后通过<code>PlainTextMessageCodec</code>序列化之后，通过netty发送到服务端。</p>
-<p>至此，业务方的消息从收集到发送完成。<br>统计展示则需要通过服务端的分析处理后方可查看</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/10/10/cat-client/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

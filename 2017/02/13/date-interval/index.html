@@ -96,7 +96,7 @@
 题目可以理解为：给定一个日期(Date)，计算与当前时间相差的天数。
 第一次这个很简单嘛，先找找JAVA有木有对应的API，Date只有before，after方法，返回boolean值，不可取，再查查看Calendar也没有对应的方法。
 好嘛，没有我就自己">
-<meta property="og:updated_time" content="2017-02-13T08:55:50.000Z">
+<meta property="og:updated_time" content="2017-02-13T09:00:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="求两个日期之间相隔的天数">
 <meta name="twitter:description" content="背景在项目中遇到一个需求，计算一个证件还有多少天到期，在还有30天到期的时候给一个提醒。看起来很简单，就是求给定的时间和当前时间的一个差值。
@@ -319,6 +319,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public int intervalDays(Date date) &#123;</div><div class="line">    if (date == null) &#123;</div><div class="line">        return 0;  //这儿忽略，根据业务场景定义返回值</div><div class="line">    &#125;</div><div class="line">    long oneDayMillis = 24 * 60 * 60 * 1000;  //一天的毫秒数</div><div class="line">    return (int) ((System.currentTimeMillis() - date.getTime()) / oneDayMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>其实一行代码就可以搞定，简单嘛。   </p>
 <p>接下来发现不对了，计算的是天数差距，如果当前是<code>12点</code>，给定日期是<code>昨天的15点</code>，上面代码计算出来的时间不足1天，返回的该是<code>0</code>。 而我们理解及业务要求中，这种情况应该返回<code>1</code>的。</p>
+<a id="more"></a>
 <h1 id="第二次"><a href="#第二次" class="headerlink" title="第二次"></a>第二次</h1><p>好嘛，要这样搞，我又用天数来相减嘛。</p>
 <pre><code>当前时间的天数 减去给定时间的天数
 </code></pre><p>代码更新如下:</p>
