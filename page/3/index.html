@@ -258,6 +258,228 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/24/linkerd-kubernetes/" itemprop="url">
+                  linkerd简介(6):kubernetes
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-24T09:32:33+08:00" content="2016-08-24">
+              2016-08-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/24/linkerd-kubernetes/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-kubernetes/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>英文原文地址：<a href="https://linkerd.io/doc/0.7.4/k8s/">https://linkerd.io/doc/0.7.4/k8s/</a></p>
+<p>本文主要介绍在Kubernetes里面部署linkerd。 关于Kubernetes的介绍，可以参考<a href="http://blog.csdn.net/zhangjun2915/article/details/40598151">Kubernetes初探</a></p>
+<p>更多的关于部署拓扑的信息，请参考<a href="https://linkerd.io/doc/0.7.4/deployment">Deployment Guide</a>。</p>
+<p>首先，需要编写一个linkerd的配置文件。下面的例子配置了两个路由，一个在8080端口接收HTTP流量，并转发到一个监听7000端口的服务。另一个路由通过<code>disco</code>配置的服务路由内部流量。在此我们使用一个通过运行在8001端口<code>kubectl proxy</code>与K8s集群接口交互的k8s namer。</p>
+<p>配置文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">namers:</div><div class="line">- kind: io.l5d.k8s</div><div class="line">  experimental: true</div><div class="line">  host: 127.0.0.1</div><div class="line">  port: 8001</div><div class="line"></div><div class="line">routers:</div><div class="line">- protocol: http</div><div class="line">  label: ext</div><div class="line">  servers:</div><div class="line">  - port: 8080</div><div class="line">    ip: 0.0.0.0</div><div class="line">  baseDtab: |</div><div class="line">    /www          =&gt; /$/inet/127.1/7000;</div><div class="line">    /http/1.1/*/* =&gt; /www;</div><div class="line">- protocol: http</div><div class="line">  label: int</div><div class="line">  servers:</div><div class="line">  - port: 4140</div><div class="line">    ip: 0.0.0.0</div><div class="line">  baseDtab: |</div><div class="line">    /iface      =&gt; /#/io.l5d.k8s/$NAMESPACE;</div><div class="line">    /srv        =&gt; /iface/rest;</div><div class="line">    /http/1.1/* =&gt; /srv;</div></pre></td></tr></table></figure>
+<p>确保配置文件中的<code>Dtabs</code>能路由到想访问的所有服务。一旦配置文件确定之后，就必须把配置文件写入Kubernetes中运行的linkerd容器。推荐的方法就是使用<a href="http://kubernetes.io/docs/user-guide/secrets/">k8s secrets</a>。</p>
+<p>一个k8s scerets的例子：<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/24/linkerd-kubernetes/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/23/linkerd-deployment/" itemprop="url">
+                  linkerd简介(5):部署
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-23T16:42:44+08:00" content="2016-08-23">
+              2016-08-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/23/linkerd-deployment/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/linkerd-deployment/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>原文地址:<a href="https://linkerd.io/doc/0.7.3/deployment/">https://linkerd.io/doc/0.7.3/deployment/</a></p>
+<p>除了JVM,linkerd没有其它依赖。它很明确的设计来适应已存在应用的部署，可以和多种RPC协同工作。linkerd主要有两种部署方式：</p>
+<ol>
+<li><strong>per-host</strong></li>
+<li><strong>be a sidecar process</strong> </li>
+</ol>
+<h2 id="1-PER-HOST部署"><a href="#1-PER-HOST部署" class="headerlink" title="1. PER-HOST部署"></a>1. PER-HOST部署</h2><p><img src="https://linkerd.io/images/diagram-per-host-deployment.png" alt=""></p>
+<p>在per-host部署模式中，每个host(物理还是虚拟)部署一个linkerd实例，在改主机的所有应用服务实例都使用同一个linkerd实例进行RPC路由。</p>
+<p>这种模式主要适用于host-based部署。主机上的每一个服务应用实例能在固定位置(如：<code>localhost:4140</code>)找到对应的linkerd实例，而不需要客户端额外的配置。</p>
+<p>这种模式要求linkerd实例支持高并发，需要较多的资源支持。这种模式，一个独立的linkerd实例相应地失去了主机本身。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/08/23/linkerd-deployment/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/23/linkerd-getting-started/" itemprop="url">
                   linkerd简介(4):快速开始
                 </a>
@@ -586,245 +808,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/17/GitHub-Hexo-Godaddy/" itemprop="url">
-                  GitHub+Hexo+Godaddy快速搭建个人博客
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-17T10:16:48+08:00" content="2016-08-17">
-              2016-08-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/17/GitHub-Hexo-Godaddy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/17/GitHub-Hexo-Godaddy/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="1-背景"><a href="#1-背景" class="headerlink" title="1. 背景"></a>1. 背景</h1><p>最近在折腾博客，然后室友就推荐用github，免费。而且有很多很方便的工具，他推荐了hexo。</p>
-<p>这两天也在自己看着教程搞，中途难免有一些坑。现在将总体流程及一些小的Tips记下来。<br>最后再加上了自己的域名，就是现在的这个网页了。</p>
-<p>言归正传，主要步骤如下(适用于Mac和Linux)：</p>
-<pre><code>NodeJs+Hexo (就这两个有先后顺序)
-Github
-Godaddy
-</code></pre><h1 id="2-主要步骤"><a href="#2-主要步骤" class="headerlink" title="2. 主要步骤"></a>2. 主要步骤</h1><p>ps:<font color='red'>事先提醒一下，很多时候发现安装出错，第一解决方法就是命令前加上sudo，用管理员权限安装，这招屡试不爽。</font></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/17/GitHub-Hexo-Godaddy/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/16/linkerd/" itemprop="url">
-                  linkerd简介(1):Introduction
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-16T14:47:22+08:00" content="2016-08-16">
-              2016-08-16
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/16/linkerd/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/16/linkerd/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-Intro"><a href="#1-Intro" class="headerlink" title="1. Intro"></a>1. Intro</h2><p>原文链接:<a href="https://linkerd.io/doc/introduction/" target="_blank" rel="external">https://linkerd.io/doc/introduction/</a> </p>
-<p>linkerd是一个专门为微服务设计的RPC代理， 它帮助服务实现：</p>
-<ul>
-<li>safe 安全</li>
-<li>reliable 可靠</li>
-<li>performance 高性能</li>
-<li>load balancing 负载均衡</li>
-<li>connection pooling 连接池</li>
-<li>session management 会话管理</li>
-<li>instrumentation 仪表盘数据</li>
-<li>routing 路由</li>
-</ul>
-<p>linkerd用来解决类似于Yahoo、Twitter、Google和MicroSoft等公司的大型业务系统问题。在我们的经验中，最复杂的问题并不是服务本身，而是服务之间的通信。linkerd就是用来解决这些问题的：不仅控制通信机制，而且在上层提供一层抽象。</p>
-<center><img src="https://linkerd.io/images/diagram-individual-instance.png" alt=""><br><font size="+1">linkerd作为应用程序的一个RPC代理 </font></center>
-
-<p>通过从应用程序代码中解耦RPC的机制，linkerd允许在不修改业务代码的基础上改变RPC机制。如：linkerd通过升级路径来实现服务发现， 以简单的静态主机列表，达到zookeeper或者consul等的全面解决方案。</p>
-<p>通过提供一套持续通用的仪表展示和服务控制，独立的服务程序语言， linkerd让用户选择任何适合他们服务的语言。</p>
-<p>linkerd搭建在twitter的大规模RPC库Finagle基础之上。在Twitter还是其他公司，Fingale能够很好的完成复杂应用和高流量的各种业务调用。通过使用Finagle，linkerd可以利用经过千万级RPC调用流量测试验证过的代码、算法和方法。</p>
-<h3 id="1-1-linkerd’s-feature"><a href="#1-1-linkerd’s-feature" class="headerlink" title="1.1 linkerd’s feature"></a>1.1 linkerd’s feature</h3><ul>
-<li>Intelligent, adaptive load-balancing. 智能的、自适应的负载均衡。 因为操作在RPC层，linkerd可以根据<code>RPC调用延迟</code>和<code>队列长度</code>来进行负载均衡，这比诸如LRU或者TCP活跃性的启发式机制更好。 通过linkerd可以优化流量分布和减少长尾延迟。</li>
-<li>Global, fine-grained instrumentation. 全局的、细维度的仪表数据展示。linkerd提供通信延迟、负载量的详细矩阵图数据，也包括成功率和负载均衡的统计，以人识别的展示方式和机器识别的展示方式。使用linkerd，即使是多种语言的应用，也可以在集中一个地方查看到一个连续的、全局的性能数据。</li>
-<li>Application-centric naming 以应用为中心命名</li>
-<li>Powerful traffic routing mechanisms.路由机制。 linkerd的路由层解耦了应用的流量服务拓扑和部署拓扑。 这意味着：灰度部署、ABTest部署、暗流量等，可以在流量控制中快速、控制范围、可回滚的实现，而不是代码部署。</li>
-</ul>
-<h3 id="1-2-linkerd使用"><a href="#1-2-linkerd使用" class="headerlink" title="1.2 linkerd使用"></a>1.2 linkerd使用</h3><p>linked作为一个分离的独立的代理运行，与语言和需要的库无关。相比于与目的服务应用直接通信，本地的linkerd实例可以看成是远程的目的服务实例，应用程序只用连接到本地的linkerd实例。在这里，linkerd接受路由规则、与存在的服务发现设施通信、目的实例的负载均衡、所有的通信和报告指标。</p>
-<p>linkerd实例有两种部署方式：</p>
-<pre><code>1. sidecars  一个应用服务实例对应一个linkerd实例
-2. per-host    一个目的host一个linkerd实例
-</code></pre><p>linkerd实例是无状态和独立的，可以快速加入已存在的部署拓扑中。</p>
-<p>linkerd支持多种通用的RPC格式。如：<font color="red"><code>HTTP、mux、thrift</code></font></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -870,7 +853,7 @@ Godaddy
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -880,7 +863,7 @@ Godaddy
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -937,7 +920,7 @@ Godaddy
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

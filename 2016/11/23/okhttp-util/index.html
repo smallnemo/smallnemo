@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="okhttp,httpclient," />
 
 
 
@@ -84,15 +84,34 @@
 
 
 
-<meta name="description" content="for hope i d give my everything">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Talisman">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="OkHttp简介Github:https://github.com/square/okhttp
+OkHttp是square开源的一款高效Http请求组件。在Google Android4.4及以上系统，已经使用OkHttp替换掉了原有的HttpURLConnection。
+主要有以下特点:
+
+支持HTTP2/SPDY协议
+socket自动选择最好路线，支持自动重连
+拥有自动维护的Socket连接池">
+<meta property="og:type" content="article">
+<meta property="og:title" content="okhttp-util">
+<meta property="og:url" content="http://yoursite.com/2016/11/23/okhttp-util/index.html">
 <meta property="og:site_name" content="Talisman">
-<meta property="og:description" content="for hope i d give my everything">
+<meta property="og:description" content="OkHttp简介Github:https://github.com/square/okhttp
+OkHttp是square开源的一款高效Http请求组件。在Google Android4.4及以上系统，已经使用OkHttp替换掉了原有的HttpURLConnection。
+主要有以下特点:
+
+支持HTTP2/SPDY协议
+socket自动选择最好路线，支持自动重连
+拥有自动维护的Socket连接池">
+<meta property="og:updated_time" content="2016-12-03T10:02:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Talisman">
-<meta name="twitter:description" content="for hope i d give my everything">
+<meta name="twitter:title" content="okhttp-util">
+<meta name="twitter:description" content="OkHttp简介Github:https://github.com/square/okhttp
+OkHttp是square开源的一款高效Http请求组件。在Google Android4.4及以上系统，已经使用OkHttp替换掉了原有的HttpURLConnection。
+主要有以下特点:
+
+支持HTTP2/SPDY协议
+socket自动选择最好路线，支持自动重连
+拥有自动维护的Socket连接池">
 
 
 
@@ -113,9 +132,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/11/23/okhttp-util/"/>
 
-  <title> Talisman </title>
+  <title> okhttp-util | Talisman </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -136,9 +155,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -235,9 +252,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -257,137 +274,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/02/13/date-interval/" itemprop="url">
-                  求两个日期之间相隔的天数
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-13T16:13:50+08:00" content="2017-02-13">
-              2017-02-13
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/02/13/date-interval/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/13/date-interval/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在项目中遇到一个需求，计算一个证件还有多少天到期，在还有30天到期的时候给一个提醒。看起来很简单，就是求给定的时间和当前时间的一个差值。</p>
-<p>题目可以理解为：<br>给定一个日期(Date)，计算与当前时间相差的天数。</p>
-<h1 id="第一次"><a href="#第一次" class="headerlink" title="第一次"></a>第一次</h1><p>这个很简单嘛，先找找JAVA有木有对应的API，Date只有before，after方法，返回boolean值，不可取，再查查看Calendar也没有对应的方法。</p>
-<p>好嘛，没有我就自己写，几行代码的事情。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public int intervalDays(Date date) &#123;</div><div class="line">    if (date == null) &#123;</div><div class="line">        return 0;  //这儿忽略，根据业务场景定义返回值</div><div class="line">    &#125;</div><div class="line">    long oneDayMillis = 24 * 60 * 60 * 1000;  //一天的毫秒数</div><div class="line">    return (int) ((System.currentTimeMillis() - date.getTime()) / oneDayMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其实一行代码就可以搞定，简单嘛。   </p>
-<p>接下来发现不对了，计算的是天数差距，如果当前是<code>12点</code>，给定日期是<code>昨天的15点</code>，上面代码计算出来的时间不足1天，返回的该是<code>0</code>。 而我们理解及业务要求中，这种情况应该返回<code>1</code>的。</p>
-<h1 id="第二次"><a href="#第二次" class="headerlink" title="第二次"></a>第二次</h1><p>好嘛，要这样搞，我又用天数来相减嘛。</p>
-<pre><code>当前时间的天数 减去给定时间的天数
-</code></pre><p>代码更新如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public int intervalDays(Date date) &#123;</div><div class="line">    if (date == null) &#123;</div><div class="line">        return 0;  //这儿忽略，根据业务场景定义返回值</div><div class="line">    &#125;</div><div class="line">    long oneDayMillis = 24 * 60 * 60 * 1000;  //一天的毫秒数</div><div class="line">//    return (int) ((System.currentTimeMillis() - date.getTime()) / oneDayMillis);</div><div class="line">    //总天数如果算上当天 两个天数都要+1， 在这里计算间隔，就都不算当天</div><div class="line">    return (int) (System.currentTimeMillis() / oneDayMillis - date.getTime() / oneDayMillis); </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>这下肯定没问题了，我用天数相减，万无一失。</p>
-<p>可是现实是很残酷的。<br>比如我现在的时间是 <code>2017-02-13 07:00:00</code><br>给定的日期是 <code>2017-02-12 19:00:00</code><br>一眼看出来，相差是一天，因为只看天数是有差距的。</p>
-<p>代码运算出来的时间却是 <code>0</code>。<br>赤裸裸的打脸呀…</p>
-<h1 id="终章"><a href="#终章" class="headerlink" title="终章"></a>终章</h1><p>马上想到一个问题，System.currentTimeMillis()取的是UTC的时间，我们用的是CST时间，求差值没问题，但是我们在求差值之前取了整数呀。    </p>
-<p>于是乎找了一个时间来验证</p>
-<pre><code>$ date -r 1486915200   根据秒数查看日期
-Mon Feb 13 00:00:00 CST 2017
-</code></pre><p>于是乎:</p>
-<pre><code>&gt;&gt;&gt; 1486915200.0 / (24 * 60 * 60)
-17209.666666666668  查看天数，返回的居然不是整数，居然是这种小数，晕了。
-</code></pre><p>仔细一看，小数好像是<code>2/3</code>，还差 <code>1/3</code>为整数，正好8小时(东八区)是一天的 <code>1/3</code>。</p>
-<p>于是乎，在东八区，所有时间计算天数需要在UTC时间上加上 8小时算出来的天数才是准确的。</p>
-<p>于是又自己造轮子:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public int intervalDays(Date date) &#123;</div><div class="line">    if (date == null) &#123;</div><div class="line">        return 0;  //这儿忽略，根据业务场景定义返回值</div><div class="line">    &#125;</div><div class="line">    long oneDayMillis = 24 * 60 * 60 * 1000;  //一天的毫秒数</div><div class="line">//    return (int) ((System.currentTimeMillis() - date.getTime()) / oneDayMillis);</div><div class="line">    //总天数如果算上当天 两个天数都要+1， 在这里计算间隔，就都不算当天</div><div class="line">//    return (int) (System.currentTimeMillis() / oneDayMillis - date.getTime() / oneDayMillis);</div><div class="line">        </div><div class="line">    long addMillis = 8 * 60 * 60 * 1000;</div><div class="line">    return (int) ((System.currentTimeMillis() + addMillis) / oneDayMillis </div><div class="line">            - (date.getTime() + addMillis) / oneDayMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>再次验证，这次好像可以了吧。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在JAVA中，所有时间相关的计算，都要随时想到时区这个东西，一不小心就会发现，这是一个很容易掉下去的坑。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/23/okhttp-util/" itemprop="url">
-                  okhttp-util
-                </a>
+                okhttp-util
               
             
           </h1>
@@ -434,9 +321,7 @@ Mon Feb 13 00:00:00 CST 2017
       
 
       
-        
-          
-            <h1 id="OkHttp简介"><a href="#OkHttp简介" class="headerlink" title="OkHttp简介"></a>OkHttp简介</h1><p>Github:<a href="https://github.com/square/okhttp" target="_blank" rel="external">https://github.com/square/okhttp</a></p>
+        <h1 id="OkHttp简介"><a href="#OkHttp简介" class="headerlink" title="OkHttp简介"></a>OkHttp简介</h1><p>Github:<a href="https://github.com/square/okhttp" target="_blank" rel="external">https://github.com/square/okhttp</a></p>
 <p>OkHttp是square开源的一款高效Http请求组件。在Google Android4.4及以上系统，已经使用OkHttp替换掉了原有的HttpURLConnection。</p>
 <p>主要有以下特点:</p>
 <ol>
@@ -654,394 +539,105 @@ T result = taClient.call(taRequest, Class&lt;T&gt; clazz)
 //如果序列化容器类泛型
 T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
 </code></pre>
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.jpg" alt="Nemo WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="Nemo Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
     </div>
+  </div>
 
-    <div>
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/14/cat-server/" itemprop="url">
-                  cat-server源码分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-14T17:37:47+08:00" content="2016-10-14">
-              2016-10-14
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/okhttp/" rel="tag">#okhttp</a>
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/14/cat-server/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/14/cat-server/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/httpclient/" rel="tag">#httpclient</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+              <a href="/2016/10/14/cat-server/" rel="next" title="cat-server源码分析">
+                <i class="fa fa-chevron-left"></i> cat-server源码分析
+              </a>
             
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-              
-                
-                <a class="post-title-link" href="/2016/10/10/cat-getstarted/" itemprop="url">
-                  cat快速入门
-                </a>
-              
+              <a href="/2017/02/13/date-interval/" rel="prev" title="求两个日期之间相隔的天数">
+                求两个日期之间相隔的天数 <i class="fa fa-chevron-right"></i>
+              </a>
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-10T10:25:23+08:00" content="2016-10-10">
-              2016-10-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/10/cat-getstarted/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/cat-getstarted/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
-<p>快速使用方法:</p>
-<h2 id="1-dependency"><a href="#1-dependency" class="headerlink" title="1. dependency"></a>1. dependency</h2><pre><code>&lt;dependency&gt;
-       &lt;groupId&gt;com.dianping.cat&lt;/groupId&gt;
-   &lt;artifactId&gt;cat-client&lt;/artifactId&gt;
-   &lt;version&gt;1.3.7&lt;/version&gt;    
-&lt;/dependency&gt;   
-</code></pre><h2 id="2-业务名称"><a href="#2-业务名称" class="headerlink" title="2. 业务名称"></a>2. 业务名称</h2><p>在<code>main/resources/</code>下新建<code>META-INF</code>目录<br>在目录中新建文件 app.properties<br>里面写入: <code>app.name=businessName</code>  （这里写自己的业务名称）   </p>
-<h2 id="3-埋点"><a href="#3-埋点" class="headerlink" title="3. 埋点"></a>3. 埋点</h2><p>CAT客户端可以向服务端发送Transaction, Event, Heartbeat三种消息</p>
-<h3 id="3-1-Transction"><a href="#3-1-Transction" class="headerlink" title="3.1 Transction"></a>3.1 Transction</h3><ul>
-<li>transaction适合记录跨越系统边界的程序访问行为，比如远程调用，数据库调用，也适合执行时间较长的业务逻辑监控</li>
-<li>某些运行期单元要花费一定时间完成工作, 内部需要其他处理逻辑协助, 我们定义为Transaction.</li>
-<li>Transaction可以嵌套(如http请求过程中嵌套了sql处理).</li>
-<li>大部分的Transaction可能会失败, 因此需要一个结果状态码.</li>
-<li>如果Transaction开始和结束之间没有其他消息产生, 那它就是Atomic Transaction(合并了起始标记).</li>
-</ul>
-<p>代码示例:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">        Transaction t = Cat.newTransaction(<span class="string">"Call"</span>, <span class="string">"test"</span>);  <span class="comment">//type 和name 都可以自定义</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">///业务逻辑</span></div><div class="line">            t.addData(<span class="string">"xxx"</span>); <span class="comment">//可选项  附带数据，仅做展示用</span></div><div class="line">            t.setStatus(Transaction.SUCCESS);  <span class="comment">//status除了Transaction.SUCCESS，其他任何字符都表示error</span></div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            t.setStatus(<span class="string">"error"</span>);</div><div class="line">            Cat.logError(e);  <span class="comment">//记录完整错误信息</span></div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            t.complete(); <span class="comment">//该行一定要执行，所以一般使用try catch ，在finally中执行</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<h3 id="3-2-Event"><a href="#3-2-Event" class="headerlink" title="3.2 Event"></a>3.2 Event</h3><h3 id="3-3-Heartbeat"><a href="#3-3-Heartbeat" class="headerlink" title="3.3 Heartbeat"></a>3.3 Heartbeat</h3><p>心跳属于自动抓取，不需要业务代码埋点。 在展示的网页中点击<code>HeartBeat</code>即可查看。每台机器每个应用程序1分钟1次的数据</p>
-<h2 id="4-查看"><a href="#4-查看" class="headerlink" title="4. 查看"></a>4. 查看</h2><p>埋点完成之后，运行系统，消息数据将实时传输到服务器进行解析、分析和展示。<br>在网页上(<a href="http://10.2.1.3:5888" target="_blank" rel="external">http://10.2.1.3:5888</a>) 可以看到统计信息.</p>
-<ul>
-<li>找到业务名，就是在app.properties中声明的app.name</li>
-<li>查看transaction和event等信息。页面显示的是埋点中<code>type</code>的统计信息，点击某一个<code>type</code>，可以看到对应的各个<code>name</code>的统计信息。</li>
-<li>problem中可以查看错误信息，点击后面<code>looooog</code>链接，可以查看所有的错误信息。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
+
+    <div class="post-spread">
       
+        <div class="ds-share flat" data-thread-key="2016/11/23/okhttp-util/"
+     data-title="okhttp-util"
+     data-content=""
+     data-url="http://yoursite.com/2016/11/23/okhttp-util/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
 
-  
-  
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
 
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/10/cat-client/" itemprop="url">
-                  cat-client源码分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-10T10:25:23+08:00" content="2016-10-10">
-              2016-10-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/10/cat-client/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/cat-client/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
-<h2 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h2><p>在程序启动的时候，主要初始化了以下模块:</p>
-<ol>
-<li>TcpSocketSender  用于连接cat服务器，通过netty异步发送消息(MessageTree)</li>
-<li>ClientConfigManager 读取服务端配置，应用基本信息等(domain,appname,ip)</li>
-<li>StatusUpdateTask 定时任务，每分钟获取一次心跳报文(HeartBeat)作为消息发送到服务器</li>
-</ol>
-<h2 id="2-业务使用"><a href="#2-业务使用" class="headerlink" title="2. 业务使用"></a>2. 业务使用</h2><p>在cat-client中，定义了3类消息(<code>Message</code>)</p>
-<ol>
-<li><code>Transaction</code> 事务类，可嵌套，可统计业务逻辑执行时间</li>
-<li><code>Event</code>    事件类，不可嵌套，近统计次数及衍生指标</li>
-<li><code>HeartBeat</code> 心跳报文，监控系统、JVM各种指标信息，与Message类似(该项cat已经配置好，一般不在业务代码中使用)</li>
-</ol>
-<p>ps: cat的所有消息都是基于同线程收集，同一jvm不同线程的消息无关联</p>
-<h3 id="2-1-Transaction"><a href="#2-1-Transaction" class="headerlink" title="2.1 Transaction"></a>2.1 Transaction</h3><p>使用事务消息，主要步骤是:</p>
-<ol>
-<li><p>Cat.newTransaction(type, name)<br>生成一个事务实例t，获取存储线程上下文信息，将该实例t加入MessageTree，加入堆栈（主要是为了判断嵌套）</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DefaultMessageProducer.newTransaction()</div><div class="line">	::m_manager.start(transaction, false)</div><div class="line">		::ctx.start(transaction, forked)</div></pre></td></tr></table></figure>
-</li>
-<li><p>执行业务逻辑</p>
-</li>
-<li>加入附加信息，t.addData()  //该项可选</li>
-<li>t.setStatus(true|false) //Message.SUCCESS = “0”表示成功，其他都表示失败</li>
-<li>t.complete() 此项一定要执行，表示事务t的结束。<br> 结束处理逻辑主要是:如果堆栈为空，则表示事务属于最外层事务，结束，将事务区间内的所有消息写入一个新的MessageTree，然后发送到本机的发送队列(netty从该队列异步获取数据发送)； 如果堆栈不为空，则表示该事务属于线程之前事务的一个子事务，则将事务压入堆栈，同时存储该事务到当前MessageTree(MessageTree中的Message对象可以增加无限的子Message)。</li>
-</ol>
-<h3 id="2-2-Event"><a href="#2-2-Event" class="headerlink" title="2.2 Event"></a>2.2 Event</h3><h3 id="2-3-HeartBeat"><a href="#2-3-HeartBeat" class="headerlink" title="2.3 HeartBeat"></a>2.3 HeartBeat</h3><p><code>Event</code>与<code>HeartBeat</code>的逻辑类似，只是各自承载的消息对象不同。他们与<code>Transaction</code>的区别在于前2者是不可嵌套的，所以不使用堆栈，在执行了complete()之后就获取MessageTree对象发送到带网络传输队列。</p>
-<h3 id="2-5-TCP-Sender"><a href="#2-5-TCP-Sender" class="headerlink" title="2.5 TCP Sender"></a>2.5 TCP Sender</h3><p>所有消息在各自线程中的流向都是本地的MessageQueue, 其中有两条Queue<br>一条是<code>MessageQueue m_atomicTrees</code>原子消息队列,一条是<code>MessageQueue m_queue</code>发送队列。  其优化逻辑是:在将MessageTree加入发送队列<code>m_queue</code>之前，先判断是否是原子消息，如果是则加入<code>m_atomicTrees</code>，<code>m_atomicTrees</code>由一个独立的线程处理，如果队列中数量达到一定或者时间达到指定区间，则进行消息合并，以一定大小合并成多条Transaction对象，然后在加入待发送队列<code>m_queue</code>   </p>
-<p>同样发送队列<code>m_queue</code>也是一个独立的线程处理，不断从队列中获取MessageTree,然后通过<code>PlainTextMessageCodec</code>序列化之后，通过netty发送到服务端。</p>
-<p>至此，业务方的消息从收集到发送完成。<br>统计展示则需要通过服务端的分析处理后方可查看</p>
-
-          
-        
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+  </div>
 
 
           </div>
@@ -1049,6 +645,14 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/23/okhttp-util/"
+           data-title="okhttp-util" data-url="http://yoursite.com/2016/11/23/okhttp-util/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -1068,8 +672,17 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -1132,6 +745,17 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OkHttp简介"><span class="nav-text">OkHttp简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支持范围"><span class="nav-text">支持范围</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HCB-OkHttp组件"><span class="nav-text">HCB OkHttp组件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TAClient"><span class="nav-text">TAClient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TARequest"><span class="nav-text">TARequest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Serializer"><span class="nav-text">Serializer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能对比测试"><span class="nav-text">性能对比测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-text">实验环境</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速使用"><span class="nav-text">快速使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring配置"><span class="nav-text">Spring配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA使用"><span class="nav-text">JAVA使用</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -1239,6 +863,10 @@ T result = taClient.call(taRequest, new TypeReference&lt;T&gt;(){})
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
