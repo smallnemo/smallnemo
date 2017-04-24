@@ -13,6 +13,9 @@
 
 
 
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
@@ -32,7 +35,7 @@
 
   
   
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -66,9 +69,9 @@
 
 
 
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
   <meta name="keywords" content="linkerd,RPC," />
@@ -80,7 +83,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
@@ -111,7 +114,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post"},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -122,8 +125,8 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: "",
-      labels: ""
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
@@ -136,7 +139,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 
 
 
-  <title> linkerd简介(7):dtabs | Talisman </title>
+  <title>linkerd简介(7):dtabs | Talisman</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -171,7 +174,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -187,7 +190,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <h1 class="site-subtitle" itemprop="description"></h1>
       
   </div>
 
@@ -246,16 +249,6 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
           </a>
         </li>
       
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404.html" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
-            
-            公益404
-          </a>
-        </li>
-      
 
       
     </ul>
@@ -302,18 +295,28 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h2 class="post-title" itemprop="name headline">
             
             
               
                 linkerd简介(7):dtabs
               
             
-          </h1>
+          </h2>
         
 
         <div class="post-meta">
           <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-24T14:16:11+08:00">
+                2016-08-24
+              </time>
             
 
             
@@ -330,8 +333,8 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/08/24/linkerd-dtabs/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/24/linkerd-dtabs/" itemprop="commentCount"></span>
+                <a class="cloud-tie-join-count" href="/2016/08/24/linkerd-dtabs/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -349,7 +352,6 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
         </div>
       </header>
     
-
 
     <div class="post-body" itemprop="articleBody">
 
@@ -448,6 +450,12 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
       
     </div>
 
+    <div>
+      
+        
+
+      
+    </div>
 
     <footer class="post-footer">
       
@@ -495,29 +503,10 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/08/24/linkerd-dtabs/"
-     data-title="linkerd简介(7):dtabs"
-     data-content=""
-     data-url="http://yoursite.com/2016/08/24/linkerd-dtabs/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
-
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
-      
     </div>
   </div>
 
-          
+
           </div>
           
 
@@ -525,9 +514,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/08/24/linkerd-dtabs/"
-           data-title="linkerd简介(7):dtabs" data-url="http://yoursite.com/2016/08/24/linkerd-dtabs/">
-      </div>
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -567,8 +554,8 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
                alt="Nemo" />
           <p class="site-author-name" itemprop="name">Nemo</p>
            
-              <p class="site-description motion-element" itemprop="description">for hope i d give my everything</p>
-          
+              <p class="site-description motion-element" itemprop="description"></p>
+           
         </div>
         <nav class="site-state motion-element">
 
@@ -643,7 +630,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-PATHS"><span class="nav-text">1. PATHS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DENTRIES-amp-ORDER-次序"><span class="nav-text">2. DENTRIES & ORDER(次序)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-STEP-BY-STEP-EXAMPLE"><span class="nav-text">2.1 STEP-BY-STEP EXAMPLE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-NAMERS-amp-ADDRESS"><span class="nav-text">3. NAMERS & ADDRESS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-ALTERNATES-amp-UNIONS-amp-WEIGHTS-候补、联合、权重"><span class="nav-text">4. ALTERNATES & UNIONS & WEIGHTS(候补、联合、权重)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-NEGATIVE，FAILURE-amp-EMPTY-RESOLUTIONS"><span class="nav-text">5. NEGATIVE，FAILURE & EMPTY RESOLUTIONS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-PATHS"><span class="nav-number">1.</span> <span class="nav-text">1. PATHS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-DENTRIES-amp-ORDER-次序"><span class="nav-number">2.</span> <span class="nav-text">2. DENTRIES & ORDER(次序)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-STEP-BY-STEP-EXAMPLE"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 STEP-BY-STEP EXAMPLE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-NAMERS-amp-ADDRESS"><span class="nav-number">3.</span> <span class="nav-text">3. NAMERS & ADDRESS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-ALTERNATES-amp-UNIONS-amp-WEIGHTS-候补、联合、权重"><span class="nav-number">4.</span> <span class="nav-text">4. ALTERNATES & UNIONS & WEIGHTS(候补、联合、权重)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-NEGATIVE，FAILURE-amp-EMPTY-RESOLUTIONS"><span class="nav-number">5.</span> <span class="nav-text">5. NEGATIVE，FAILURE & EMPTY RESOLUTIONS</span></a></li></ol></div>
             
 
           </div>
@@ -668,11 +655,22 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
   &copy; 
   <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
-    <i class="fa fa-"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Nemo</span>
 </div>
 
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
 
 
         
@@ -687,7 +685,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
         
       </div>
     
-    
+
   </div>
 
   
@@ -711,74 +709,83 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
 
 
 
   
-  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
 
 
 
   
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
 
   
     
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"talisman"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-    
-    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "9ebbb4cbb8104d1994cc1e683d0e9bc3",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
   
 
 
@@ -790,13 +797,11 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 
 
 
-
-
-
-  
   
 
-  
+
+
+
 
   
 
@@ -819,6 +824,7 @@ Dtabs就是一系列路由规则的集合，这些规则存储logic path(如: �
 
   
 
+  
 
   
 
