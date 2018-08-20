@@ -273,6 +273,149 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/10/cat-client/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nemo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talisman">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/10/cat-client/" itemprop="url">
+                  cat-client源码分析
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-10T10:25:23+08:00">
+                2016-10-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
+<h2 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h2><p>在程序启动的时候，主要初始化了以下模块:</p>
+<ol>
+<li>TcpSocketSender  用于连接cat服务器，通过netty异步发送消息(MessageTree)</li>
+<li>ClientConfigManager 读取服务端配置，应用基本信息等(domain,appname,ip)</li>
+<li>StatusUpdateTask 定时任务，每分钟获取一次心跳报文(HeartBeat)作为消息发送到服务器</li>
+</ol>
+<h2 id="2-业务使用"><a href="#2-业务使用" class="headerlink" title="2. 业务使用"></a>2. 业务使用</h2><p>在cat-client中，定义了3类消息(<code>Message</code>)</p>
+<ol>
+<li><code>Transaction</code> 事务类，可嵌套，可统计业务逻辑执行时间</li>
+<li><code>Event</code>    事件类，不可嵌套，近统计次数及衍生指标</li>
+<li><code>HeartBeat</code> 心跳报文，监控系统、JVM各种指标信息，与Message类似(该项cat已经配置好，一般不在业务代码中使用)</li>
+</ol>
+<p>ps: cat的所有消息都是基于同线程收集，同一jvm不同线程的消息无关联</p>
+<h3 id="2-1-Transaction"><a href="#2-1-Transaction" class="headerlink" title="2.1 Transaction"></a>2.1 Transaction</h3><p>使用事务消息，主要步骤是:</p>
+<ol>
+<li><p>Cat.newTransaction(type, name)<br>生成一个事务实例t，获取存储线程上下文信息，将该实例t加入MessageTree，加入堆栈（主要是为了判断嵌套）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DefaultMessageProducer.newTransaction()</div><div class="line">	::m_manager.start(transaction, false)</div><div class="line">		::ctx.start(transaction, forked)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/10/cat-client/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/10/cat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -773,141 +916,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/24/linkerd-dtabs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Nemo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talisman">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/24/linkerd-dtabs/" itemprop="url">
-                  linkerd简介(7):dtabs
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-24T14:16:11+08:00">
-                2016-08-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>原文地址: <a href="https://linkerd.io/doc/dtabs/">https://linkerd.io/doc/dtabs/</a></p>
-<p><strong><code>Dtabs</code></strong>就是一系列路由规则的集合，这些规则存储<code>logic path</code>(如: 一家货运公司)并且将他们转换为定位它们的<code>concrete name</code>(如:成都市天府软件园E3)。这个过程我们称之为<code>resolution</code>,它主要涉及一些列前缀的改写。</p>
-<p>除了这些文件，你可以参考Twitter的<a href="http://twitter.github.io/finagle/guide/Names.html">Finagle’s dtab docs</a>, 也可以通过运行linkerd实例后，浏览<a href="http://localhost:9990/delegator">http://localhost:9990/delegator</a> 来体验dtab。</p>
-<h2 id="1-PATHS"><a href="#1-PATHS" class="headerlink" title="1. PATHS"></a>1. PATHS</h2><p>最简单的dtab就是单条规则。(称为dentry)</p>
-<pre><code>/56qqCorp =&gt; /softwarepark;
-</code></pre><p>这条规则只对<code>56qq Corp</code>有效，对其他前缀的路径无效。</p>
-<p>但是对于路径 <code>/56qqCorp/tech</code>, 前缀满足规则的左边部分。将会被替换为<code>/softwarepark/tech</code>。</p>
-<h2 id="2-DENTRIES-amp-ORDER-次序"><a href="#2-DENTRIES-amp-ORDER-次序" class="headerlink" title="2. DENTRIES &amp; ORDER(次序)"></a>2. DENTRIES &amp; ORDER(次序)</h2><p><strong>Dtabs</strong>大部分时候有一些列dentry。 比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/smitten       =&gt; /USA/CA/SF/Octavia/432;</div><div class="line">/iceCreamStore =&gt; /smitten;</div><div class="line">/iceCreamStore =&gt; /humphrys;</div></pre></td></tr></table></figure>
-<p>当我们尝试解决匹配对个前缀的路径时，<font color='red'><strong>靠后的匹配优先</strong></font>。 所以路径<code>/iceCreamStore/try/allFlavors</code>首先会转换为<code>/humphrys/try/allFlavors</code>。然后，如果humphrys的地址无法感知，我们就会失败回退使用<code>/smitten/try/allFlavors</code>，进一步路径修改，最终变为<code>/USA/CA/SF/Octavia/432/try/allFlavors</code>。</p>
-<h3 id="2-1-STEP-BY-STEP-EXAMPLE"><a href="#2-1-STEP-BY-STEP-EXAMPLE" class="headerlink" title="2.1 STEP-BY-STEP EXAMPLE"></a>2.1 STEP-BY-STEP EXAMPLE</h3><p>比如dtab:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/iceCreamStore    =&gt; /smitten;</div><div class="line">/smitten/try      =&gt; /smittenLocation/waitInLine/thenTry;</div><div class="line">/smittenLocation  =&gt; /sanfrancisco/octavia/432;</div><div class="line">/california       =&gt; /USA/CA;</div><div class="line">/sanfrancisco     =&gt; /california/SF;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/08/24/linkerd-dtabs/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -957,7 +965,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1032,7 +1040,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

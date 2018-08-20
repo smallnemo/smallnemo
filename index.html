@@ -273,6 +273,129 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/毫无头绪/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Nemo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talisman">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/08/20/毫无头绪/" itemprop="url">
+                  毫无头绪
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-20T12:23:52+08:00">
+                2018-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>身体就像没有油的机器一样，没有动力。</p>
+<p>也像是缺少一个驾驶员，在十字路口徘徊</p>
+<p>徘徊</p>
+<p>徘徊…..</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/date-interval/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -787,149 +910,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/10/cat-client/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Nemo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Talisman">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/10/cat-client/" itemprop="url">
-                  cat-client源码分析
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-10T10:25:23+08:00">
-                2016-10-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>cat-client主要是业务程序使用，埋点生成各种消息，通过netty发送到cat server。</p>
-<h2 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1. 初始化"></a>1. 初始化</h2><p>在程序启动的时候，主要初始化了以下模块:</p>
-<ol>
-<li>TcpSocketSender  用于连接cat服务器，通过netty异步发送消息(MessageTree)</li>
-<li>ClientConfigManager 读取服务端配置，应用基本信息等(domain,appname,ip)</li>
-<li>StatusUpdateTask 定时任务，每分钟获取一次心跳报文(HeartBeat)作为消息发送到服务器</li>
-</ol>
-<h2 id="2-业务使用"><a href="#2-业务使用" class="headerlink" title="2. 业务使用"></a>2. 业务使用</h2><p>在cat-client中，定义了3类消息(<code>Message</code>)</p>
-<ol>
-<li><code>Transaction</code> 事务类，可嵌套，可统计业务逻辑执行时间</li>
-<li><code>Event</code>    事件类，不可嵌套，近统计次数及衍生指标</li>
-<li><code>HeartBeat</code> 心跳报文，监控系统、JVM各种指标信息，与Message类似(该项cat已经配置好，一般不在业务代码中使用)</li>
-</ol>
-<p>ps: cat的所有消息都是基于同线程收集，同一jvm不同线程的消息无关联</p>
-<h3 id="2-1-Transaction"><a href="#2-1-Transaction" class="headerlink" title="2.1 Transaction"></a>2.1 Transaction</h3><p>使用事务消息，主要步骤是:</p>
-<ol>
-<li><p>Cat.newTransaction(type, name)<br>生成一个事务实例t，获取存储线程上下文信息，将该实例t加入MessageTree，加入堆栈（主要是为了判断嵌套）</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DefaultMessageProducer.newTransaction()</div><div class="line">	::m_manager.start(transaction, false)</div><div class="line">		::ctx.start(transaction, forked)</div></pre></td></tr></table></figure>
-</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/10/10/cat-client/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -979,7 +959,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1054,7 +1034,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
